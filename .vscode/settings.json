@@ -1,0 +1,10 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "python.linting.pylintEnabled": true,
+  "python.linting.enabled": true,
+  "python.linting.flake8Enabled": false,
+  "python.formatting.provider": "black",
+  "python.languageServer": "Pylance",
+  "python.pythonPath": "/home/qiusheng/.conda/envs/gee/bin/python"
+}
