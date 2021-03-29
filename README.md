@@ -5,7 +5,7 @@ Spatial Data Management with PostgreSQL and PostGIS https://gishub.org/sdm
 ## Sample Datasets
 
 - https://github.com/giswqs/data
-- [world_cities.csv](https://github.com/giswqs/data/blob/main/world/world_cities.csv)
+- [cities.csv](https://github.com/giswqs/postgis/blob/master/data/cities.csv)
 
 ## Useful Resources
 
@@ -13,13 +13,17 @@ Spatial Data Management with PostgreSQL and PostGIS https://gishub.org/sdm
 
 ## SQL Tutorial
 
-- Change column type
+### Change column type
 
 ```
 ALTER TABLE cities
 ALTER COLUMN population TYPE INT
 USING population::integer
 ```
+
+### SQL queries for non-spatial data
+
+The examples below use the sample dataset - [cities.csv](https://github.com/giswqs/postgis/blob/master/data/cities.csv)
 
 - `SELECT * FROM cities`
 - `SELECT * FROM cities LIMIT 10`
