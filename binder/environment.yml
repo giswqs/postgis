@@ -1,0 +1,13 @@
+name: postgis
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - numpy
+  - matplotlib
+  - pandas
+  - postgresql
+  - psycopg2
+  - pgspecial
+  - ipython-sql
+  - altair

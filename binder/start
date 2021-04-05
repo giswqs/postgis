@@ -1,0 +1,4 @@
+#!/bin/bash
+export PGDATA=$HOME/pgsql/data
+pg_ctl start -l pglog
+exec "$@"
