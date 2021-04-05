@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>1. Installation &#8212; Spatial Data Management with PostgreSQL and PostGIS</title>
+    <title>Title &#8212; Spatial Data Management with PostgreSQL and PostGIS</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -52,20 +52,19 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://postgis.gishub.org/chapters/installation.html" />
+    <link rel="canonical" href="https://postgis.gishub.org/chapters/template.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="About the Authors" href="authors.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
 
 
 <!-- Opengraph tags -->
-<meta property="og:url"         content="https://postgis.gishub.org/chapters/installation.html" />
+<meta property="og:url"         content="https://postgis.gishub.org/chapters/template.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="Installation" />
-<meta property="og:description" content="Installation  Setting up the conda env:  conda create -n sql python conda activate sql conda install ipython-sql sqlalchemy psycopg2 notebook pandas -c conda-fo" />
+<meta property="og:title"       content="Title" />
+<meta property="og:description" content="Title  Setting up the conda env:  conda create -n sql python conda activate sql conda install ipython-sql sqlalchemy psycopg2 notebook pandas -c conda-forge   S" />
 <meta property="og:image"       content="https://postgis.gishub.org/_static/logo.png" />
 
 <meta name="twitter:card" content="summary" />
@@ -123,9 +122,9 @@
   Chapters
  </span>
 </p>
-<ul class="current nav sidenav_l1">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="installation.html">
    1. Installation
   </a>
  </li>
@@ -169,7 +168,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/chapters/installation.ipynb"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/chapters/template.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
@@ -189,10 +188,10 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/giswqs/postgis/issues/new?title=Issue%20on%20page%20%2Fchapters/installation.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/giswqs/postgis/issues/new?title=Issue%20on%20page%20%2Fchapters/template.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/giswqs/postgis/edit/master/postgis/chapters/installation.ipynb"><button
+        <a class="edit-button" href="https://github.com/giswqs/postgis/edit/master/postgis/chapters/template.ipynb"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -212,7 +211,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/giswqs/postgis/master?urlpath=tree/postgis/chapters/installation.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/giswqs/postgis/master?urlpath=tree/postgis/chapters/template.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -237,12 +236,7 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#using-ipython-sql">
-   1.1. Using ipython-sql
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#using-sqlalchemy">
-   1.2. Using sqlalchemy
+   Using ipython-sql
   </a>
  </li>
 </ul>
@@ -257,8 +251,8 @@
         
               <div>
                 
-  <div class="section" id="installation">
-<h1><span class="section-number">1. </span>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="title">
+<h1>Title<a class="headerlink" href="#title" title="Permalink to this headline">¶</a></h1>
 <p><strong>Setting up the conda env:</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">sql</span> <span class="n">python</span>
 <span class="n">conda</span> <span class="n">activate</span> <span class="n">sql</span>
@@ -270,7 +264,7 @@
 <li><p><a class="reference external" href="https://github.com/giswqs/postgis/blob/master/data/cities.csv">cities.csv</a></p></li>
 </ul>
 <div class="section" id="using-ipython-sql">
-<h2><span class="section-number">1.1. </span>Using ipython-sql<a class="headerlink" href="#using-ipython-sql" title="Permalink to this headline">¶</a></h2>
+<h2>Using ipython-sql<a class="headerlink" href="#using-ipython-sql" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> sql
@@ -413,200 +407,6 @@ SELECT * from cities LIMIT 10
     </tr>
 </table></div></div>
 </div>
-<div class="cell tag_remove-output docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span> 
-
-SELECT * from cities
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="using-sqlalchemy">
-<h2><span class="section-number">1.2. </span>Using sqlalchemy<a class="headerlink" href="#using-sqlalchemy" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">connection_string</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">inspect</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">insp</span> <span class="o">=</span> <span class="n">inspect</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>
-<span class="n">insp</span><span class="o">.</span><span class="n">get_table_names</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;cities&#39;,
- &#39;spatial_ref_sys&#39;,
- &#39;us_states&#39;,
- &#39;us_counties&#39;,
- &#39;Customers&#39;,
- &#39;us_cities&#39;,
- &#39;us_cities_csv&#39;]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s1">&#39;SELECT * from cities LIMIT 10&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>id</th>
-      <th>name</th>
-      <th>country</th>
-      <th>latitude</th>
-      <th>longitude</th>
-      <th>population</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1</td>
-      <td>Bombo</td>
-      <td>UGA</td>
-      <td>0.5833</td>
-      <td>32.5333</td>
-      <td>75000</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2</td>
-      <td>Fort Portal</td>
-      <td>UGA</td>
-      <td>0.671</td>
-      <td>30.275</td>
-      <td>42670</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>3</td>
-      <td>Potenza</td>
-      <td>ITA</td>
-      <td>40.642</td>
-      <td>15.799</td>
-      <td>69060</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>4</td>
-      <td>Campobasso</td>
-      <td>ITA</td>
-      <td>41.563</td>
-      <td>14.656</td>
-      <td>50762</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>5</td>
-      <td>Aosta</td>
-      <td>ITA</td>
-      <td>45.737</td>
-      <td>7.315</td>
-      <td>34062</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>6</td>
-      <td>Mariehamn</td>
-      <td>ALD</td>
-      <td>60.097</td>
-      <td>19.949</td>
-      <td>10682</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>7</td>
-      <td>Ramallah</td>
-      <td>PSE</td>
-      <td>31.90294</td>
-      <td>35.20621</td>
-      <td>24599</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>8</td>
-      <td>Vatican City</td>
-      <td>VAT</td>
-      <td>41.90001</td>
-      <td>12.44781</td>
-      <td>832</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>9</td>
-      <td>Poitier</td>
-      <td>FRA</td>
-      <td>46.58329</td>
-      <td>0.33328</td>
-      <td>85960</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>10</td>
-      <td>Clermont-Ferrand</td>
-      <td>FRA</td>
-      <td>45.77998</td>
-      <td>3.08001</td>
-      <td>233050</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
 </div>
 </div>
 
@@ -635,7 +435,6 @@ SELECT * from cities
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="authors.html" title="previous page">About the Authors</a>
 
         </div>
         
