@@ -10,7 +10,7 @@ Julie has written a set of SQL exercises in [her fork](https://github.com/julizh
 
 This repo is compatible with mybinder.org. Click the link below to launch a public online instance.
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/baldwint/binder-postgres/postgres)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/giswqs/postgis/master)
 
 ## Use on your local machine
 

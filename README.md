@@ -1,5 +1,7 @@
 # postgis
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/giswqs/postgis/master)
+
 Spatial Data Management with PostgreSQL and PostGIS https://gishub.org/sdm
 
 ## Sample Datasets
