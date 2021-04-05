@@ -9,3 +9,22 @@ title: Spatial Data Management with PostgreSQL and PostGIS # The title of the bo
 author: Qiusheng Wu # The author of the book
 copyright: "2021" # Copyright year to be placed in the footer
 logo: logo.png # A path to the book logo
+
+#######################################################################################
+# HTML-specific settings
+html:
+  baseurl: "https://postgis.gishub.org/" # The base URL where your book will be hosted.
+  use_repository_button: true
+  use_issues_button: true
+  use_edit_page_button: true
+
+#######################################################################################
+# Launch button settings
+repository:
+  url: https://github.com/giswqs/postgis
+  path_to_book: "postgis/" # A path to your book's folder, relative to the repository root.
+  branch: master # Which branch of the repository should be used when creating links
+
+sphinx:
+  config:
+    html_extra_path: ["CNAME"]

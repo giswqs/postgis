@@ -1,8 +1,13 @@
-# Table of content
-# Learn more at https://jupyterbook.org/customize/toc.html
-#
-- file: intro
-- file: content
-  sections:
-    - file: markdown
-    - file: notebooks
+- file: chapters/intro
+
+- part: Preface
+  numbered: false
+  chapters:
+    - file: chapters/preface
+    - file: chapters/authors
+
+- part: Chapters
+  numbered: true
+  chapters:
+    - file: chapters/installation
+    - file: chapters/postgres
