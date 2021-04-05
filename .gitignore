@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+postgis/_build/
 
 # C extensions
 *.so
