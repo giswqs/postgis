@@ -2,3 +2,8 @@ jupyter-book
 matplotlib
 numpy
 ghp-import
+ipython-sql 
+sqlalchemy 
+psycopg2 
+notebook 
+pandas

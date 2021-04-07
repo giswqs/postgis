@@ -10,4 +10,4 @@
   numbered: true
   chapters:
     - file: chapters/installation
-    - file: chapters/postgres
+    - file: chapters/sql_basics
