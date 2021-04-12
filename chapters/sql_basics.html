@@ -55,7 +55,7 @@
     <link rel="canonical" href="https://postgis.gishub.org/chapters/sql_basics.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="3. Intro to PostGIS" href="postgis_intro.html" />
+    <link rel="next" title="3. Introduction to PostGIS" href="postgis_intro.html" />
     <link rel="prev" title="1. Installation" href="installation.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -137,7 +137,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="postgis_intro.html">
-   3. Intro to PostGIS
+   3. Introduction to PostGIS
   </a>
  </li>
 </ul>
@@ -42439,7 +42439,9 @@ SELECT name, country, countries.&quot;Country&quot; FROM cities INNER JOIN count
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
-1244 rows affected.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1244 rows affected.
 </pre></div>
 </div>
 <div class="output text_html"><table>
@@ -108786,7 +108788,9 @@ ORDER BY COUNT(name) DESC
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
-6 rows affected.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6 rows affected.
 </pre></div>
 </div>
 <div class="output text_html"><table>
@@ -115111,12 +115115,11 @@ FROM cities
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1249 rows affected.
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+(psycopg2.errors.DuplicateTable) relation &quot;cities_new&quot; already exists
+
+[SQL: SELECT * INTO cities_new
+FROM cities]
+(Background on this error at: http://sqlalche.me/e/13/f405)
 </pre></div>
 </div>
 </div>
@@ -115137,7 +115140,9 @@ WHERE country = &#39;USA&#39;
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
 Done.
-114 rows affected.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>114 rows affected.
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
@@ -115376,7 +115381,7 @@ LIMIT 10
         <div class='prev-next-bottom'>
             
     <a class='left-prev' id="prev-link" href="installation.html" title="previous page"><span class="section-number">1. </span>Installation</a>
-    <a class='right-next' id="next-link" href="postgis_intro.html" title="next page"><span class="section-number">3. </span>Intro to PostGIS</a>
+    <a class='right-next' id="next-link" href="postgis_intro.html" title="next page"><span class="section-number">3. </span>Introduction to PostGIS</a>
 
         </div>
         
