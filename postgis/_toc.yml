@@ -11,3 +11,4 @@
   chapters:
     - file: chapters/installation
     - file: chapters/sql_basics
+    - file: chapters/postgis_intro
