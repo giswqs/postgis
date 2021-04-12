@@ -1,0 +1,1307 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3. Introduction to PostGIS &#8212; Spatial Data Management with PostgreSQL and PostGIS</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://postgis.gishub.org/chapters/postgis_intro.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="2. SQL Basics" href="sql_basics.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+<!-- Opengraph tags -->
+<meta property="og:url"         content="https://postgis.gishub.org/chapters/postgis_intro.html" />
+<meta property="og:type"        content="article" />
+<meta property="og:title"       content="Introduction to PostGIS" />
+<meta property="og:description" content="Introduction to PostGIS  Setting up the conda env:  conda create -n sql python conda activate sql conda install ipython-sql sqlalchemy psycopg2 notebook pandas " />
+<meta property="og:image"       content="https://postgis.gishub.org/_static/logo.png" />
+
+<meta name="twitter:card" content="summary" />
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Spatial Data Management with PostgreSQL and PostGIS</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Welcome to PostGIS Book
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Preface
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="preface.html">
+   Preface
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="authors.html">
+   About the Authors
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Chapters
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="installation.html">
+   1. Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sql_basics.html">
+   2. SQL Basics
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   3. Introduction to PostGIS
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/chapters/postgis_intro.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/giswqs/postgis"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/giswqs/postgis/issues/new?title=Issue%20on%20page%20%2Fchapters/postgis_intro.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/giswqs/postgis/edit/master/postgis/chapters/postgis_intro.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/giswqs/postgis/master?urlpath=tree/postgis/chapters/postgis_intro.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#connecting-to-the-database">
+   3.1. Connecting to the database
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#simple-sql">
+   3.2. Simple SQL
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#nyc-neighborhoods">
+     3.2.1. NYC Neighborhoods
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#nyc-census-blocks">
+     3.2.2. NYC Census Blocks
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="introduction-to-postgis">
+<h1><span class="section-number">3. </span>Introduction to PostGIS<a class="headerlink" href="#introduction-to-postgis" title="Permalink to this headline">¶</a></h1>
+<p><strong>Setting up the conda env:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">sql</span> <span class="n">python</span>
+<span class="n">conda</span> <span class="n">activate</span> <span class="n">sql</span>
+<span class="n">conda</span> <span class="n">install</span> <span class="n">ipython</span><span class="o">-</span><span class="n">sql</span> <span class="n">sqlalchemy</span> <span class="n">psycopg2</span> <span class="n">notebook</span> <span class="n">pandas</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+</pre></div>
+</div>
+<p><strong>Sample dataset:</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/giswqs/postgis/blob/master/data/nyc_data.zip">nyc_data.zip</a></p></li>
+</ul>
+<p><strong>Reference</strong>:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://postgis.net/workshops/postgis-intro/index.html">Introduction to PostGIS</a></p></li>
+</ul>
+<div class="section" id="connecting-to-the-database">
+<h2><span class="section-number">3.1. </span>Connecting to the database<a class="headerlink" href="#connecting-to-the-database" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> sql
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">host</span> <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span>
+<span class="n">database</span> <span class="o">=</span> <span class="s2">&quot;nyc&quot;</span>
+<span class="n">user</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;SQL_USER&#39;</span><span class="p">)</span>
+<span class="n">password</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;SQL_PASSWORD&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">connection_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;postgresql://</span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">password</span><span class="si">}</span><span class="s2">@</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">database</span><span class="si">}</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">sql</span> $connection_string
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span> 
+
+SELECT * FROM nyc_neighborhoods WHERE FALSE
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
+0 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>id</th>
+        <th>geom</th>
+        <th>boroname</th>
+        <th>name</th>
+    </tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span> 
+
+SELECT id, boroname, name from nyc_neighborhoods LIMIT 10
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>id</th>
+        <th>boroname</th>
+        <th>name</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Brooklyn</td>
+        <td>Bensonhurst</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Manhattan</td>
+        <td>East Village</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>Manhattan</td>
+        <td>West Village</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>The Bronx</td>
+        <td>Throggs Neck</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>The Bronx</td>
+        <td>Wakefield-Williamsbridge</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>Queens</td>
+        <td>Auburndale</td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td>Manhattan</td>
+        <td>Battery Park</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>Manhattan</td>
+        <td>Carnegie Hill</td>
+    </tr>
+    <tr>
+        <td>9</td>
+        <td>Staten Island</td>
+        <td>Mariners Harbor</td>
+    </tr>
+    <tr>
+        <td>10</td>
+        <td>Staten Island</td>
+        <td>Rossville</td>
+    </tr>
+</table></div></div>
+</div>
+</div>
+<div class="section" id="simple-sql">
+<h2><span class="section-number">3.2. </span>Simple SQL<a class="headerlink" href="#simple-sql" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT postgis_full_version()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>postgis_full_version</th>
+    </tr>
+    <tr>
+        <td>POSTGIS=&quot;3.0.3 6660953&quot; [EXTENSION] PGSQL=&quot;130&quot; GEOS=&quot;3.8.1-CAPI-1.13.3&quot; PROJ=&quot;6.3.2&quot; LIBXML=&quot;2.9.10&quot; LIBJSON=&quot;0.15&quot; LIBPROTOBUF=&quot;1.3.3&quot; WAGYU=&quot;0.4.3 (Internal)&quot;</td>
+    </tr>
+</table></div></div>
+</div>
+<div class="section" id="nyc-neighborhoods">
+<h3><span class="section-number">3.2.1. </span>NYC Neighborhoods<a class="headerlink" href="#nyc-neighborhoods" title="Permalink to this headline">¶</a></h3>
+<p><img alt="" src="https://i.imgur.com/eycL547.png" /></p>
+<p>What are the names of all the neighborhoods in New York City?</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT name FROM nyc_neighborhoods
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
+129 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>name</th>
+    </tr>
+    <tr>
+        <td>Bensonhurst</td>
+    </tr>
+    <tr>
+        <td>East Village</td>
+    </tr>
+    <tr>
+        <td>West Village</td>
+    </tr>
+    <tr>
+        <td>Throggs Neck</td>
+    </tr>
+    <tr>
+        <td>Wakefield-Williamsbridge</td>
+    </tr>
+    <tr>
+        <td>Auburndale</td>
+    </tr>
+    <tr>
+        <td>Battery Park</td>
+    </tr>
+    <tr>
+        <td>Carnegie Hill</td>
+    </tr>
+    <tr>
+        <td>Mariners Harbor</td>
+    </tr>
+    <tr>
+        <td>Rossville</td>
+    </tr>
+    <tr>
+        <td>Harlem</td>
+    </tr>
+    <tr>
+        <td>Gramercy</td>
+    </tr>
+    <tr>
+        <td>Queens Village</td>
+    </tr>
+    <tr>
+        <td>Middle Village</td>
+    </tr>
+    <tr>
+        <td>Ettingville</td>
+    </tr>
+    <tr>
+        <td>Morris Park</td>
+    </tr>
+    <tr>
+        <td>Baychester</td>
+    </tr>
+    <tr>
+        <td>Great Kills</td>
+    </tr>
+    <tr>
+        <td>New Brighton</td>
+    </tr>
+    <tr>
+        <td>Fordham</td>
+    </tr>
+    <tr>
+        <td>Nkew Gardens</td>
+    </tr>
+    <tr>
+        <td>Soho</td>
+    </tr>
+    <tr>
+        <td>Spuyten Duyvil</td>
+    </tr>
+    <tr>
+        <td>Woodside</td>
+    </tr>
+    <tr>
+        <td>Bay Ridge</td>
+    </tr>
+    <tr>
+        <td>Mott Haven</td>
+    </tr>
+    <tr>
+        <td>Rosedale</td>
+    </tr>
+    <tr>
+        <td>Boerum Hill</td>
+    </tr>
+    <tr>
+        <td>Cobble Hill</td>
+    </tr>
+    <tr>
+        <td>Morningside Heights</td>
+    </tr>
+    <tr>
+        <td>Murray Hill</td>
+    </tr>
+    <tr>
+        <td>Port Richmond</td>
+    </tr>
+    <tr>
+        <td>Williams Bridge</td>
+    </tr>
+    <tr>
+        <td>Downtown</td>
+    </tr>
+    <tr>
+        <td>Woodrow</td>
+    </tr>
+    <tr>
+        <td>Union Port</td>
+    </tr>
+    <tr>
+        <td>Woodhaven-Richmond Hill</td>
+    </tr>
+    <tr>
+        <td>Soundview</td>
+    </tr>
+    <tr>
+        <td>Jamaica</td>
+    </tr>
+    <tr>
+        <td>Laurelton</td>
+    </tr>
+    <tr>
+        <td>Sunset Park</td>
+    </tr>
+    <tr>
+        <td>Borough Park</td>
+    </tr>
+    <tr>
+        <td>East Brooklyn</td>
+    </tr>
+    <tr>
+        <td>Midland Beach</td>
+    </tr>
+    <tr>
+        <td>Jackson Heights</td>
+    </tr>
+    <tr>
+        <td>Maspeth</td>
+    </tr>
+    <tr>
+        <td>Flatbush</td>
+    </tr>
+    <tr>
+        <td>Central Park</td>
+    </tr>
+    <tr>
+        <td>Charlestown-Richmond Valley</td>
+    </tr>
+    <tr>
+        <td>Glendale</td>
+    </tr>
+    <tr>
+        <td>Morris Heights</td>
+    </tr>
+    <tr>
+        <td>Kings Bridge</td>
+    </tr>
+    <tr>
+        <td>Country Club</td>
+    </tr>
+    <tr>
+        <td>Park Slope</td>
+    </tr>
+    <tr>
+        <td>Greenwich Village</td>
+    </tr>
+    <tr>
+        <td>Midtown</td>
+    </tr>
+    <tr>
+        <td>Bloomfield-Chelsea-Travis</td>
+    </tr>
+    <tr>
+        <td>Richmondtown</td>
+    </tr>
+    <tr>
+        <td>Bedford Park</td>
+    </tr>
+    <tr>
+        <td>Williamsburg</td>
+    </tr>
+    <tr>
+        <td>Flushing</td>
+    </tr>
+    <tr>
+        <td>Canarsie</td>
+    </tr>
+    <tr>
+        <td>Greenwood</td>
+    </tr>
+    <tr>
+        <td>Annandale</td>
+    </tr>
+    <tr>
+        <td>City Island</td>
+    </tr>
+    <tr>
+        <td>Saintalbans</td>
+    </tr>
+    <tr>
+        <td>University Heights</td>
+    </tr>
+    <tr>
+        <td>Gravesend-Sheepshead Bay</td>
+    </tr>
+    <tr>
+        <td>Tribeca</td>
+    </tr>
+    <tr>
+        <td>North Sutton Area</td>
+    </tr>
+    <tr>
+        <td>Queensboro Hill</td>
+    </tr>
+    <tr>
+        <td>Springfield Gardens</td>
+    </tr>
+    <tr>
+        <td>Dyker Heights</td>
+    </tr>
+    <tr>
+        <td>Upper East Side</td>
+    </tr>
+    <tr>
+        <td>Financial District</td>
+    </tr>
+    <tr>
+        <td>Inwood</td>
+    </tr>
+    <tr>
+        <td>Sunny Side</td>
+    </tr>
+    <tr>
+        <td>Lower East Side</td>
+    </tr>
+    <tr>
+        <td>Chelsea</td>
+    </tr>
+    <tr>
+        <td>Oakwood</td>
+    </tr>
+    <tr>
+        <td>South Beach</td>
+    </tr>
+    <tr>
+        <td>Tottensville</td>
+    </tr>
+    <tr>
+        <td>Hunts Point</td>
+    </tr>
+    <tr>
+        <td>Ridgewood</td>
+    </tr>
+    <tr>
+        <td>Forest Hills</td>
+    </tr>
+    <tr>
+        <td>Clearview</td>
+    </tr>
+    <tr>
+        <td>Brownsville</td>
+    </tr>
+    <tr>
+        <td>Bushwick</td>
+    </tr>
+    <tr>
+        <td>Washington Heights</td>
+    </tr>
+    <tr>
+        <td>Upper West Side</td>
+    </tr>
+    <tr>
+        <td>The Rockaways</td>
+    </tr>
+    <tr>
+        <td>Howland Hook</td>
+    </tr>
+    <tr>
+        <td>Ardon Heights</td>
+    </tr>
+    <tr>
+        <td>Fort Green</td>
+    </tr>
+    <tr>
+        <td>Clinton</td>
+    </tr>
+    <tr>
+        <td>Prince&#x27;s Bay</td>
+    </tr>
+    <tr>
+        <td>Fresh Kills</td>
+    </tr>
+    <tr>
+        <td>High Bridge</td>
+    </tr>
+    <tr>
+        <td>Eastchester</td>
+    </tr>
+    <tr>
+        <td>Riverdale</td>
+    </tr>
+    <tr>
+        <td>Woodlawn-Nordwood</td>
+    </tr>
+    <tr>
+        <td>Huguenot</td>
+    </tr>
+    <tr>
+        <td>Clifton</td>
+    </tr>
+    <tr>
+        <td>Bayside</td>
+    </tr>
+    <tr>
+        <td>Howard Beach</td>
+    </tr>
+    <tr>
+        <td>Tremont</td>
+    </tr>
+    <tr>
+        <td>Utopia</td>
+    </tr>
+    <tr>
+        <td>Garment District</td>
+    </tr>
+    <tr>
+        <td>East Harlem</td>
+    </tr>
+    <tr>
+        <td>Todt Hill</td>
+    </tr>
+    <tr>
+        <td>Parkchester</td>
+    </tr>
+    <tr>
+        <td>South Bronx</td>
+    </tr>
+    <tr>
+        <td>Westerleigh-Castleton</td>
+    </tr>
+    <tr>
+        <td>College Point</td>
+    </tr>
+    <tr>
+        <td>Mapleton-Flatlands</td>
+    </tr>
+    <tr>
+        <td>Little Italy</td>
+    </tr>
+    <tr>
+        <td>Bedford-Stuyvesant</td>
+    </tr>
+    <tr>
+        <td>Hamilton Heights</td>
+    </tr>
+    <tr>
+        <td>Carroll Gardens</td>
+    </tr>
+    <tr>
+        <td>Astoria-Long Island City</td>
+    </tr>
+    <tr>
+        <td>Yorkville</td>
+    </tr>
+    <tr>
+        <td>Chinatown</td>
+    </tr>
+    <tr>
+        <td>Coney Island</td>
+    </tr>
+    <tr>
+        <td>Corona</td>
+    </tr>
+    <tr>
+        <td>Red Hook</td>
+    </tr>
+    <tr>
+        <td>Douglastown-Little Neck</td>
+    </tr>
+    <tr>
+        <td>Whitestone</td>
+    </tr>
+    <tr>
+        <td>Steinway</td>
+    </tr>
+    <tr>
+        <td>Rosebank</td>
+    </tr>
+</table></div></div>
+</div>
+<p>What are the names of all the neighborhoods in Brooklyn?</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT name
+FROM nyc_neighborhoods
+WHERE boroname = &#39;Brooklyn&#39;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
+23 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>name</th>
+    </tr>
+    <tr>
+        <td>Bensonhurst</td>
+    </tr>
+    <tr>
+        <td>Bay Ridge</td>
+    </tr>
+    <tr>
+        <td>Boerum Hill</td>
+    </tr>
+    <tr>
+        <td>Cobble Hill</td>
+    </tr>
+    <tr>
+        <td>Downtown</td>
+    </tr>
+    <tr>
+        <td>Sunset Park</td>
+    </tr>
+    <tr>
+        <td>Borough Park</td>
+    </tr>
+    <tr>
+        <td>East Brooklyn</td>
+    </tr>
+    <tr>
+        <td>Flatbush</td>
+    </tr>
+    <tr>
+        <td>Park Slope</td>
+    </tr>
+    <tr>
+        <td>Williamsburg</td>
+    </tr>
+    <tr>
+        <td>Canarsie</td>
+    </tr>
+    <tr>
+        <td>Greenwood</td>
+    </tr>
+    <tr>
+        <td>Gravesend-Sheepshead Bay</td>
+    </tr>
+    <tr>
+        <td>Dyker Heights</td>
+    </tr>
+    <tr>
+        <td>Brownsville</td>
+    </tr>
+    <tr>
+        <td>Bushwick</td>
+    </tr>
+    <tr>
+        <td>Fort Green</td>
+    </tr>
+    <tr>
+        <td>Mapleton-Flatlands</td>
+    </tr>
+    <tr>
+        <td>Bedford-Stuyvesant</td>
+    </tr>
+    <tr>
+        <td>Carroll Gardens</td>
+    </tr>
+    <tr>
+        <td>Coney Island</td>
+    </tr>
+    <tr>
+        <td>Red Hook</td>
+    </tr>
+</table></div></div>
+</div>
+<p>What is the number of letters in the names of all the neighborhoods in Brooklyn?</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT char_length(name)
+FROM nyc_neighborhoods
+WHERE boroname = &#39;Brooklyn&#39;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
+23 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>char_length</th>
+    </tr>
+    <tr>
+        <td>11</td>
+    </tr>
+    <tr>
+        <td>9</td>
+    </tr>
+    <tr>
+        <td>11</td>
+    </tr>
+    <tr>
+        <td>11</td>
+    </tr>
+    <tr>
+        <td>8</td>
+    </tr>
+    <tr>
+        <td>11</td>
+    </tr>
+    <tr>
+        <td>12</td>
+    </tr>
+    <tr>
+        <td>13</td>
+    </tr>
+    <tr>
+        <td>8</td>
+    </tr>
+    <tr>
+        <td>10</td>
+    </tr>
+    <tr>
+        <td>12</td>
+    </tr>
+    <tr>
+        <td>8</td>
+    </tr>
+    <tr>
+        <td>9</td>
+    </tr>
+    <tr>
+        <td>24</td>
+    </tr>
+    <tr>
+        <td>13</td>
+    </tr>
+    <tr>
+        <td>11</td>
+    </tr>
+    <tr>
+        <td>8</td>
+    </tr>
+    <tr>
+        <td>10</td>
+    </tr>
+    <tr>
+        <td>18</td>
+    </tr>
+    <tr>
+        <td>18</td>
+    </tr>
+    <tr>
+        <td>15</td>
+    </tr>
+    <tr>
+        <td>12</td>
+    </tr>
+    <tr>
+        <td>8</td>
+    </tr>
+</table></div></div>
+</div>
+<p>What is the average number of letters and standard deviation of number of letters in the names of all the neighborhoods in Brooklyn?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT avg(char_length(name)), stddev(char_length(name))
+FROM nyc_neighborhoods
+WHERE boroname = &#39;Brooklyn&#39;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>avg</th>
+        <th>stddev</th>
+    </tr>
+    <tr>
+        <td>11.7391304347826087</td>
+        <td>3.9105613559407395</td>
+    </tr>
+</table></div></div>
+</div>
+<p>What is the average number of letters in the names of all the neighborhoods in New York City, reported by borough?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT boroname, avg(char_length(name)), stddev(char_length(name))
+FROM nyc_neighborhoods
+GROUP BY boroname
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
+5 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>boroname</th>
+        <th>avg</th>
+        <th>stddev</th>
+    </tr>
+    <tr>
+        <td>Queens</td>
+        <td>11.6666666666666667</td>
+        <td>5.0057438272815975</td>
+    </tr>
+    <tr>
+        <td>Brooklyn</td>
+        <td>11.7391304347826087</td>
+        <td>3.9105613559407395</td>
+    </tr>
+    <tr>
+        <td>Staten Island</td>
+        <td>12.2916666666666667</td>
+        <td>5.2043390480959474</td>
+    </tr>
+    <tr>
+        <td>The Bronx</td>
+        <td>12.0416666666666667</td>
+        <td>3.6651017740975152</td>
+    </tr>
+    <tr>
+        <td>Manhattan</td>
+        <td>11.8214285714285714</td>
+        <td>4.3123729948325257</td>
+    </tr>
+</table></div></div>
+</div>
+</div>
+<div class="section" id="nyc-census-blocks">
+<h3><span class="section-number">3.2.2. </span>NYC Census Blocks<a class="headerlink" href="#nyc-census-blocks" title="Permalink to this headline">¶</a></h3>
+<p><img alt="" src="https://i.imgur.com/tHyMJMm.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT * FROM nyc_census_blocks WHERE FALSE
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
+0 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>id</th>
+        <th>geom</th>
+        <th>blkid</th>
+        <th>popn_total</th>
+        <th>popn_white</th>
+        <th>popn_black</th>
+        <th>popn_nativ</th>
+        <th>popn_asian</th>
+        <th>popn_other</th>
+        <th>boroname</th>
+    </tr>
+</table></div></div>
+</div>
+<p>What is the population of the City of New York?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span> 
+
+SELECT Sum(popn_total) AS population
+FROM nyc_census_blocks
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>population</th>
+    </tr>
+    <tr>
+        <td>8175032</td>
+    </tr>
+</table></div></div>
+</div>
+<p>What is the population of the Bronx?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span> 
+
+SELECT SUM(popn_total) AS population
+FROM nyc_census_blocks
+WHERE boroname = &#39;The Bronx&#39;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>population</th>
+    </tr>
+    <tr>
+        <td>1385108</td>
+    </tr>
+</table></div></div>
+</div>
+<p>For each borough, what percentage of the population is white?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT
+boroname,
+100 * SUM(popn_white)/SUM(popn_total) AS white_pct
+FROM nyc_census_blocks
+GROUP BY boroname
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
+5 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>boroname</th>
+        <th>white_pct</th>
+    </tr>
+    <tr>
+        <td>Queens</td>
+        <td>39.7220773945910130</td>
+    </tr>
+    <tr>
+        <td>Brooklyn</td>
+        <td>42.8011737932686549</td>
+    </tr>
+    <tr>
+        <td>The Bronx</td>
+        <td>27.9037446899447552</td>
+    </tr>
+    <tr>
+        <td>Manhattan</td>
+        <td>57.4493039480462811</td>
+    </tr>
+    <tr>
+        <td>Staten Island</td>
+        <td>72.8942034860154033</td>
+    </tr>
+</table></div></div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./chapters"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="sql_basics.html" title="previous page"><span class="section-number">2. </span>SQL Basics</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Qiusheng Wu<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

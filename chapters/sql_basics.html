@@ -55,6 +55,7 @@
     <link rel="canonical" href="https://postgis.gishub.org/chapters/sql_basics.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Intro to PostGIS" href="postgis_intro.html" />
     <link rel="prev" title="1. Installation" href="installation.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -132,6 +133,11 @@
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    2. SQL Basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="postgis_intro.html">
+   3. Intro to PostGIS
   </a>
  </li>
 </ul>
@@ -283,6 +289,50 @@
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#sql-union">
      2.4.5. SQL Union
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#aggregation">
+   2.5. Aggregation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#group-by">
+     2.5.1. Group By
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#having">
+     2.5.2. Having
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conditional-statements">
+   2.6. Conditional statements
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#saving-results">
+   2.7. Saving results
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sql-comments">
+   2.8. SQL Comments
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#single-line-coments">
+     2.8.1. Single line coments
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#multi-line-comments">
+     2.8.2. Multi-line comments
     </a>
    </li>
   </ul>
@@ -23433,9 +23483,7 @@ SELECT COUNT(*) FROM cities
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 rows affected.
+1 rows affected.
 </pre></div>
 </div>
 <div class="output text_html"><table>
@@ -42391,9 +42439,7 @@ SELECT name, country, countries.&quot;Country&quot; FROM cities INNER JOIN count
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1244 rows affected.
+1244 rows affected.
 </pre></div>
 </div>
 <div class="output text_html"><table>
@@ -48637,7 +48683,9 @@ SELECT * FROM cities LEFT JOIN countries ON cities.country = countries.&quot;Alp
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
-1249 rows affected.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1249 rows affected.
 </pre></div>
 </div>
 <div class="output text_html"><table>
@@ -67406,9 +67454,7 @@ SELECT * FROM cities RIGHT JOIN countries ON cities.country = countries.&quot;Al
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1291 rows affected.
+1291 rows affected.
 </pre></div>
 </div>
 <div class="output text_html"><table>
@@ -107035,6 +107081,8273 @@ SELECT &quot;Alpha3_code&quot; FROM countries
 </div>
 </div>
 </div>
+<div class="section" id="aggregation">
+<h2><span class="section-number">2.5. </span>Aggregation<a class="headerlink" href="#aggregation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="group-by">
+<h3><span class="section-number">2.5.1. </span>Group By<a class="headerlink" href="#group-by" title="Permalink to this headline">¶</a></h3>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT COUNT(name), country 
+FROM cities 
+GROUP BY country 
+ORDER BY COUNT(name) DESC
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
+200 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>count</th>
+        <th>country</th>
+    </tr>
+    <tr>
+        <td>114</td>
+        <td>USA</td>
+    </tr>
+    <tr>
+        <td>100</td>
+        <td>CHN</td>
+    </tr>
+    <tr>
+        <td>81</td>
+        <td>RUS</td>
+    </tr>
+    <tr>
+        <td>69</td>
+        <td>IND</td>
+    </tr>
+    <tr>
+        <td>46</td>
+        <td>BRA</td>
+    </tr>
+    <tr>
+        <td>45</td>
+        <td>CAN</td>
+    </tr>
+    <tr>
+        <td>40</td>
+        <td>ATA</td>
+    </tr>
+    <tr>
+        <td>36</td>
+        <td>AUS</td>
+    </tr>
+    <tr>
+        <td>30</td>
+        <td>FRA</td>
+    </tr>
+    <tr>
+        <td>27</td>
+        <td>MEX</td>
+    </tr>
+    <tr>
+        <td>23</td>
+        <td>IDN</td>
+    </tr>
+    <tr>
+        <td>21</td>
+        <td>ITA</td>
+    </tr>
+    <tr>
+        <td>20</td>
+        <td>ARG</td>
+    </tr>
+    <tr>
+        <td>18</td>
+        <td>JPN</td>
+    </tr>
+    <tr>
+        <td>15</td>
+        <td>COD</td>
+    </tr>
+    <tr>
+        <td>13</td>
+        <td>CHL</td>
+    </tr>
+    <tr>
+        <td>13</td>
+        <td>GBR</td>
+    </tr>
+    <tr>
+        <td>13</td>
+        <td>ZAF</td>
+    </tr>
+    <tr>
+        <td>13</td>
+        <td>NGA</td>
+    </tr>
+    <tr>
+        <td>13</td>
+        <td>KAZ</td>
+    </tr>
+    <tr>
+        <td>11</td>
+        <td>PER</td>
+    </tr>
+    <tr>
+        <td>10</td>
+        <td>UGA</td>
+    </tr>
+    <tr>
+        <td>9</td>
+        <td>IRN</td>
+    </tr>
+    <tr>
+        <td>9</td>
+        <td>PAK</td>
+    </tr>
+    <tr>
+        <td>9</td>
+        <td>COL</td>
+    </tr>
+    <tr>
+        <td>9</td>
+        <td>SDN</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>UKR</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>ESP</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>EGY</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>PHL</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>MOZ</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>NZL</td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td>TZA</td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td>TUR</td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td>NAM</td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td>LBY</td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td>AGO</td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td>VEN</td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td>MAR</td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td>NOR</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>DZA</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>MLI</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>CMR</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>BOL</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>DNK</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>ZMB</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>DEU</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>IRQ</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>MNG</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>NER</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>KOR</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>ETH</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>SAU</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>UZB</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>PNG</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>MDG</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>KEN</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>CAF</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>MRT</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>ECU</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>VNM</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>NLD</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>AFG</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>BWA</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>BGD</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>MYS</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>SWE</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>THA</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>TKM</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>FIN</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>MMR</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>KHM</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>PRT</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>ZWE</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>YEM</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>PRK</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>TWN</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>ROU</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>COG</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>GAB</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>GEO</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>SEN</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>CIV</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>LKA</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>BEN</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>MWI</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>CHE</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>GIN</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>SSD</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>TCD</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>POL</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>SUR</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>PSE</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>CUB</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>ISR</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>URY</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>ERI</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>TUN</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>BLR</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>PRY</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>GRC</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>DOM</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>CRI</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>SWZ</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>GTM</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>SRB</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>BIH</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>BHS</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>BFA</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>PAN</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>ARE</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>SYR</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>SOL</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>TGO</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>VCT</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>ALD</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>COM</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>DMA</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>IRL</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>SAH</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>AND</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>TUV</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>MDA</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>SYC</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>GRD</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>BLZ</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>AZE</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>SMR</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>ALB</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>HUN</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>KGZ</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>BRN</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>STP</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>SLB</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>MDV</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>TON</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>BDI</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>LIE</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>JOR</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>KWT</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>MUS</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>ATG</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>BHR</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>LAO</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>NIC</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>SVK</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>HTI</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>TJK</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>GNB</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>CYP</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>LBR</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>HRV</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>QAT</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>SLV</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>SLE</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>OMN</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>BRB</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>JAM</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>SGP</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>GHA</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>DJI</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>MLT</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>AUT</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>TTO</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>VUT</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>TLS</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>PLW</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>SVN</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>LTU</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>MHL</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>MKD</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>LBN</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>GNQ</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>FJI</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>RWA</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>ISL</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>CZE</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>FSM</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>BTN</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>MNE</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>MCO</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>KIR</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>VAT</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>CPV</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>BEL</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>KNA</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>HND</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>SOM</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>LCA</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>GMB</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>BGR</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>EST</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>GUY</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>NPL</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>LUX</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>KOS</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>ARM</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>LSO</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>WSM</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>LVA</td>
+    </tr>
+</table></div></div>
+</div>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT countries.&quot;Country&quot;, COUNT(name)
+FROM cities
+LEFT JOIN countries ON cities.country = countries.&quot;Alpha3_code&quot;
+GROUP BY countries.&quot;Country&quot;
+ORDER BY COUNT(name) DESC
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
+197 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>Country</th>
+        <th>count</th>
+    </tr>
+    <tr>
+        <td>United States</td>
+        <td>114</td>
+    </tr>
+    <tr>
+        <td>China</td>
+        <td>100</td>
+    </tr>
+    <tr>
+        <td>Russia</td>
+        <td>81</td>
+    </tr>
+    <tr>
+        <td>India</td>
+        <td>69</td>
+    </tr>
+    <tr>
+        <td>Brazil</td>
+        <td>46</td>
+    </tr>
+    <tr>
+        <td>Canada</td>
+        <td>45</td>
+    </tr>
+    <tr>
+        <td>Antarctica</td>
+        <td>40</td>
+    </tr>
+    <tr>
+        <td>Australia</td>
+        <td>36</td>
+    </tr>
+    <tr>
+        <td>France</td>
+        <td>30</td>
+    </tr>
+    <tr>
+        <td>Mexico</td>
+        <td>27</td>
+    </tr>
+    <tr>
+        <td>Indonesia</td>
+        <td>23</td>
+    </tr>
+    <tr>
+        <td>Italy</td>
+        <td>21</td>
+    </tr>
+    <tr>
+        <td>Argentina</td>
+        <td>20</td>
+    </tr>
+    <tr>
+        <td>Japan</td>
+        <td>18</td>
+    </tr>
+    <tr>
+        <td>Congo, the Democratic Republic of the</td>
+        <td>15</td>
+    </tr>
+    <tr>
+        <td>South Africa</td>
+        <td>13</td>
+    </tr>
+    <tr>
+        <td>Kazakhstan</td>
+        <td>13</td>
+    </tr>
+    <tr>
+        <td>Chile</td>
+        <td>13</td>
+    </tr>
+    <tr>
+        <td>United Kingdom</td>
+        <td>13</td>
+    </tr>
+    <tr>
+        <td>Nigeria</td>
+        <td>13</td>
+    </tr>
+    <tr>
+        <td>Peru</td>
+        <td>11</td>
+    </tr>
+    <tr>
+        <td>Uganda</td>
+        <td>10</td>
+    </tr>
+    <tr>
+        <td>Iran, Islamic Republic of</td>
+        <td>9</td>
+    </tr>
+    <tr>
+        <td>Sudan</td>
+        <td>9</td>
+    </tr>
+    <tr>
+        <td>Colombia</td>
+        <td>9</td>
+    </tr>
+    <tr>
+        <td>Pakistan</td>
+        <td>9</td>
+    </tr>
+    <tr>
+        <td>Ukraine</td>
+        <td>8</td>
+    </tr>
+    <tr>
+        <td>Egypt</td>
+        <td>8</td>
+    </tr>
+    <tr>
+        <td>New Zealand</td>
+        <td>8</td>
+    </tr>
+    <tr>
+        <td>Spain</td>
+        <td>8</td>
+    </tr>
+    <tr>
+        <td>Mozambique</td>
+        <td>8</td>
+    </tr>
+    <tr>
+        <td>Philippines</td>
+        <td>8</td>
+    </tr>
+    <tr>
+        <td>Tanzania, United Republic of</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>Turkey</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>Angola</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>Venezuela</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>Norway</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>Morocco</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>Libya</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>Namibia</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>Cameroon</td>
+        <td>6</td>
+    </tr>
+    <tr>
+        <td>Mali</td>
+        <td>6</td>
+    </tr>
+    <tr>
+        <td>Algeria</td>
+        <td>6</td>
+    </tr>
+    <tr>
+        <td>Denmark</td>
+        <td>6</td>
+    </tr>
+    <tr>
+        <td>Zambia</td>
+        <td>6</td>
+    </tr>
+    <tr>
+        <td>Bolivia</td>
+        <td>6</td>
+    </tr>
+    <tr>
+        <td>None</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>Mongolia</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>Ethiopia</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>Niger</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>Saudi Arabia</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>South Korea</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>Madagascar</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>Uzbekistan</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>Germany</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>Papua New Guinea</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>Iraq</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>Bangladesh</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>Vietnam</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>Afghanistan</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>Mauritania</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>Ecuador</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>Myanmar</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>Central African Republic</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>Kenya</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>Sweden</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>Turkmenistan</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>Malaysia</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>Botswana</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>Finland</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>Netherlands</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>Thailand</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>Yemen</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Korea, Democratic People&#x27;s Republic of</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Gabon</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Senegal</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Switzerland</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Congo</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Georgia</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Guinea</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Benin</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Zimbabwe</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Sri Lanka</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>South Sudan</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Romania</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Malawi</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Taiwan</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Poland</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Chad</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Portugal</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Ivory Coast</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Cambodia</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Costa Rica</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Syrian Arab Republic</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Dominican Republic</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Israel</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Bosnia and Herzegovina</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Serbia</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>United Arab Emirates</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Uruguay</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Eritrea</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Greece</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Suriname</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Palestinian Territory, Occupied</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Guatemala</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Panama</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Tunisia</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Swaziland</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Cuba</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Belarus</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Paraguay</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Togo</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Burkina Faso</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Bahamas</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Azerbaijan</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Marshall Islands</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Kiribati</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Montenegro</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Saint Vincent and the Grenadines</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Jordan</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Barbados</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Macedonia, the former Yugoslav Republic of</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Brunei</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>El Salvador</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Solomon Islands</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Grenada</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Moldova, Republic of</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Kyrgyzstan</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Monaco</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Belgium</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Djibouti</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Ghana</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Vanuatu</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Iceland</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Dominica</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Sierra Leone</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Qatar</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Tuvalu</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Armenia</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Tajikistan</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Cyprus</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Rwanda</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Liberia</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Lao People&#x27;s Democratic Republic</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Comoros</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Saint Lucia</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Croatia</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Kuwait</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Lesotho</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Haiti</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Mauritius</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Micronesia, Federated States of</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Bahrain</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Slovakia</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Maldives</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Burundi</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Cape Verde</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Bhutan</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Nicaragua</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Tonga</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Holy See (Vatican City State)</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Oman</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Fiji</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Palau</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Latvia</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Sao Tome and Principe</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Liechtenstein</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Nepal</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Albania</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Gambia</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Estonia</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Malta</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>San Marino</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Singapore</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Ireland</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Trinidad and Tobago</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Czech Republic</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Luxembourg</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Andorra</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Seychelles</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Somalia</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Hungary</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Belize</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Honduras</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Antigua and Barbuda</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Equatorial Guinea</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Austria</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Guinea-Bissau</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Samoa</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Lithuania</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Jamaica</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Bulgaria</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Saint Kitts and Nevis</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Timor-Leste</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Guyana</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Slovenia</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Lebanon</td>
+        <td>1</td>
+    </tr>
+</table></div></div>
+</div>
+</div>
+<div class="section" id="having">
+<h3><span class="section-number">2.5.2. </span>Having<a class="headerlink" href="#having" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span> 
+
+SELECT COUNT(name), country
+FROM cities
+GROUP BY country
+HAVING COUNT(name) &gt; 40
+ORDER BY COUNT(name) DESC
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
+6 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>count</th>
+        <th>country</th>
+    </tr>
+    <tr>
+        <td>114</td>
+        <td>USA</td>
+    </tr>
+    <tr>
+        <td>100</td>
+        <td>CHN</td>
+    </tr>
+    <tr>
+        <td>81</td>
+        <td>RUS</td>
+    </tr>
+    <tr>
+        <td>69</td>
+        <td>IND</td>
+    </tr>
+    <tr>
+        <td>46</td>
+        <td>BRA</td>
+    </tr>
+    <tr>
+        <td>45</td>
+        <td>CAN</td>
+    </tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT countries.&quot;Country&quot;, COUNT(name)
+FROM cities
+LEFT JOIN countries ON cities.country = countries.&quot;Alpha3_code&quot;
+GROUP BY countries.&quot;Country&quot;
+HAVING COUNT(name) &gt; 40
+ORDER BY COUNT(name) DESC
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
+6 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>Country</th>
+        <th>count</th>
+    </tr>
+    <tr>
+        <td>United States</td>
+        <td>114</td>
+    </tr>
+    <tr>
+        <td>China</td>
+        <td>100</td>
+    </tr>
+    <tr>
+        <td>Russia</td>
+        <td>81</td>
+    </tr>
+    <tr>
+        <td>India</td>
+        <td>69</td>
+    </tr>
+    <tr>
+        <td>Brazil</td>
+        <td>46</td>
+    </tr>
+    <tr>
+        <td>Canada</td>
+        <td>45</td>
+    </tr>
+</table></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="conditional-statements">
+<h2><span class="section-number">2.6. </span>Conditional statements<a class="headerlink" href="#conditional-statements" title="Permalink to this headline">¶</a></h2>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT name, population,
+CASE
+    WHEN population &gt; 10000000 THEN &#39;Megacity&#39;
+    WHEN population &gt; 1000000 THEN &#39;Large city&#39;
+    ELSE &#39;Small city&#39;
+END AS category
+FROM cities
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
+1249 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>name</th>
+        <th>population</th>
+        <th>category</th>
+    </tr>
+    <tr>
+        <td>Bombo</td>
+        <td>75000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Fort Portal</td>
+        <td>42670</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Potenza</td>
+        <td>69060</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Campobasso</td>
+        <td>50762</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Aosta</td>
+        <td>34062</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mariehamn</td>
+        <td>10682</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ramallah</td>
+        <td>24599</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Vatican City</td>
+        <td>832</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Poitier</td>
+        <td>85960</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Clermont-Ferrand</td>
+        <td>233050</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Besancon</td>
+        <td>128426</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Artigas Base</td>
+        <td>60</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Chipata</td>
+        <td>85963</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Jinja</td>
+        <td>301619</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Arua</td>
+        <td>250000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mbale</td>
+        <td>402368</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Moroto</td>
+        <td>371</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Masaka</td>
+        <td>65373</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mbarara</td>
+        <td>83700</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Otjiwarongo</td>
+        <td>24815</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bologna</td>
+        <td>488172</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Cagliari</td>
+        <td>291511</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Catanzaro</td>
+        <td>95251</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bari</td>
+        <td>500577</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>L&#x27;Aquila</td>
+        <td>68503</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ancona</td>
+        <td>100507</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Perugia</td>
+        <td>149125</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Trieste</td>
+        <td>216035</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Trento</td>
+        <td>107808</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Fort-de-France</td>
+        <td>253995</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Gifu</td>
+        <td>412895</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Saint-Laurent-du-Maroni</td>
+        <td>24287</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Caen</td>
+        <td>190099</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nantes</td>
+        <td>438537</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ajaccio</td>
+        <td>54364</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Montpellier</td>
+        <td>327254</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Dijon</td>
+        <td>169946</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Orleans</td>
+        <td>217301</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Rouen</td>
+        <td>532559</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Reims</td>
+        <td>196565</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Amiens</td>
+        <td>143086</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nancy</td>
+        <td>268976</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Basse-terre</td>
+        <td>307</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Novi Sad</td>
+        <td>225457</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Banja Luka</td>
+        <td>221738</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>George Town</td>
+        <td>4268</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Grand Turk</td>
+        <td>5801</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Douglas</td>
+        <td>35854</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>San Marino</td>
+        <td>29579</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Willemstad</td>
+        <td>146813</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Oranjestad</td>
+        <td>68775</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Vaduz</td>
+        <td>36281</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Capitan Arturo Prat Station</td>
+        <td>41</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Marambio Station</td>
+        <td>150</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Zucchelli Station</td>
+        <td>80</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Rothera Station</td>
+        <td>130</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Palmer Station</td>
+        <td>46</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Base Presidente Montalva</td>
+        <td>150</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Carlini Station</td>
+        <td>60</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>King Sejong Station</td>
+        <td>90</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Great Wall Station</td>
+        <td>40</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Escudero Base</td>
+        <td>20</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Elephant Island</td>
+        <td>6</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Scott Base</td>
+        <td>85</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>McMurdo Station</td>
+        <td>1000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Zhongshan Station</td>
+        <td>60</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Vostok</td>
+        <td>25</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Peter I Island</td>
+        <td>1</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mirny Station</td>
+        <td>169</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mawson Station</td>
+        <td>60</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Davis Station</td>
+        <td>70</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Concordia Research Station</td>
+        <td>30</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Casey Station</td>
+        <td>200</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>AmundsenScott South Pole Station</td>
+        <td>200</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Wasa Station</td>
+        <td>10</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Troll Station</td>
+        <td>44</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Svea Station</td>
+        <td>10</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Novolazarevskaya Station</td>
+        <td>70</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Neumayer Station III</td>
+        <td>40</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Maitri Station</td>
+        <td>65</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Halley Station</td>
+        <td>70</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Belgrano Station</td>
+        <td>100</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Camp Sobral</td>
+        <td>40</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Aboa Station</td>
+        <td>18</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>San Martín Station</td>
+        <td>20</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Gen. O&#x27;Higgins Station</td>
+        <td>44</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Esperanza Station</td>
+        <td>250</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Orcadas Station</td>
+        <td>45</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Signy Research Station</td>
+        <td>8</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Dumont d&#x27;Urville Station</td>
+        <td>120</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Showa Station</td>
+        <td>60</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Gibraltar</td>
+        <td>187083</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Lobamba</td>
+        <td>9782</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Edinburgh</td>
+        <td>504966</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Cardiff</td>
+        <td>861400</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Longyearbyen</td>
+        <td>1232</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Luxembourg</td>
+        <td>107260</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Turin</td>
+        <td>1652000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Noumea</td>
+        <td>93060</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Matsuyama</td>
+        <td>533541</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Rennes</td>
+        <td>209375</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Toulouse</td>
+        <td>847000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Limoges</td>
+        <td>152199</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Lille</td>
+        <td>1044000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Strasbourg</td>
+        <td>439972</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Batumi</td>
+        <td>155542</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Funchal</td>
+        <td>204767</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>El Fasher</td>
+        <td>252609</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Keetmanshoop</td>
+        <td>18039</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Swakopmund</td>
+        <td>29491</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Genoa</td>
+        <td>647497</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Sukhumi</td>
+        <td>81546</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Palikir</td>
+        <td>4645</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Majuro</td>
+        <td>25400</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Agana</td>
+        <td>122411</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Funafuti</td>
+        <td>4749</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Melekeok</td>
+        <td>7026</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bir Lehlou</td>
+        <td>500</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Monaco</td>
+        <td>36371</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tarawa</td>
+        <td>28802</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Moroni</td>
+        <td>128698</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Macau</td>
+        <td>568700</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Andorra</td>
+        <td>53998</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>San Bernardino</td>
+        <td>1745000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Bridgeport</td>
+        <td>1018000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Rochester</td>
+        <td>755000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Manchester</td>
+        <td>2230000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Gujranwala</td>
+        <td>1513000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Incheon</td>
+        <td>2550000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Benin City</td>
+        <td>1190000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Xiamen</td>
+        <td>2519000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Nanchong</td>
+        <td>2174000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Neijiang</td>
+        <td>1466000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Nanyang</td>
+        <td>1944000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Jinxi</td>
+        <td>2426000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Yantai</td>
+        <td>2116000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Zaozhuang</td>
+        <td>2145000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Suzhou</td>
+        <td>1650000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Xuzhou</td>
+        <td>2091000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Wuxi</td>
+        <td>1749000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Jilin</td>
+        <td>2396000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Chandigarh</td>
+        <td>979000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Jammu</td>
+        <td>791000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Sholapur</td>
+        <td>1057000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Aurangabad</td>
+        <td>1113000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Nasik</td>
+        <td>1473000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Dispur</td>
+        <td>16140</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Jullundur</td>
+        <td>855000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Allahabad</td>
+        <td>1201000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Moradabad</td>
+        <td>787000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ghaziabad</td>
+        <td>1341000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Agra</td>
+        <td>1592000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Aligarh</td>
+        <td>805000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Meerut</td>
+        <td>1398000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Dhanbad</td>
+        <td>1246000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Gwalior</td>
+        <td>978000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Vadodara</td>
+        <td>1756000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Rajkot</td>
+        <td>1260000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Durazno</td>
+        <td>34037</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>International Falls</td>
+        <td>15240</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>St. Paul</td>
+        <td>734854</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Billings</td>
+        <td>104552</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Great Falls</td>
+        <td>66558</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Missoula</td>
+        <td>72856</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Minot</td>
+        <td>39439</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Fargo</td>
+        <td>162842</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Hilo</td>
+        <td>52391</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Olympia</td>
+        <td>156984</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Spokane</td>
+        <td>347705</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Vancouver</td>
+        <td>525802</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Flagstaff</td>
+        <td>63993</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tucson</td>
+        <td>823000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Santa Barbara</td>
+        <td>181632</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Fresno</td>
+        <td>616353</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Eureka</td>
+        <td>42398</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Colorado Springs</td>
+        <td>493654</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Reno</td>
+        <td>328585</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Elko</td>
+        <td>19252</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Albuquerque</td>
+        <td>898642</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Salem</td>
+        <td>229010</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Casper</td>
+        <td>60791</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Topeka</td>
+        <td>132091</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kansas City</td>
+        <td>1469000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Tulsa</td>
+        <td>946962</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Sioux Falls</td>
+        <td>155724</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Shreveport</td>
+        <td>248053</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Baton Rouge</td>
+        <td>422072</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ft. Worth</td>
+        <td>1440454</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Corpus Christi</td>
+        <td>277454</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Austin</td>
+        <td>1161000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Amarillo</td>
+        <td>181766</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>El Paso</td>
+        <td>753000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Laredo</td>
+        <td>434768</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Merida</td>
+        <td>345489</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Burlington</td>
+        <td>93807</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Montgomery</td>
+        <td>198325</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tallahassee</td>
+        <td>221222</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Orlando</td>
+        <td>1350000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Jacksonville</td>
+        <td>988000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Savannah</td>
+        <td>180187</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Columbia</td>
+        <td>398093</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Indianapolis</td>
+        <td>1436000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Wilmington</td>
+        <td>161560</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Knoxville</td>
+        <td>655400</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Richmond</td>
+        <td>912000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Charleston</td>
+        <td>123799</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Baltimore</td>
+        <td>2255000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Syracuse</td>
+        <td>662577</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Puerto Ayacucho</td>
+        <td>52526</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Port-of-Spain</td>
+        <td>294934</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Augusta</td>
+        <td>24042</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Sault Ste. Marie</td>
+        <td>83805</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Atakpame</td>
+        <td>80683</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Sousse</td>
+        <td>327004</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Taizz</td>
+        <td>751000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Sitka</td>
+        <td>8931</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Lvov</td>
+        <td>803880</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Odessa</td>
+        <td>991000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Zhytomyr</td>
+        <td>282192</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Dnipropetrovsk</td>
+        <td>1050000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Donetsk</td>
+        <td>988000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kharkiv</td>
+        <td>1461000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Turkmenbasy</td>
+        <td>68292</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bukhara</td>
+        <td>319476</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nukus</td>
+        <td>230006</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Turkmenabat</td>
+        <td>234817</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mary</td>
+        <td>178708</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Andijon</td>
+        <td>650000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Haiphong</td>
+        <td>1969000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Da Nang</td>
+        <td>1000000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kabwe</td>
+        <td>188979</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mufulira</td>
+        <td>153624</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kitwe</td>
+        <td>404901</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Livingstone</td>
+        <td>165480</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Chitungwiza</td>
+        <td>340360</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Douala</td>
+        <td>1906000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Birmingham</td>
+        <td>2285000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Belfast</td>
+        <td>450406</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Izmir</td>
+        <td>2587000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Bursa</td>
+        <td>1492000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Samsun</td>
+        <td>609339</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Konya</td>
+        <td>919000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Adana</td>
+        <td>1293000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Gulu</td>
+        <td>146858</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kigali</td>
+        <td>860000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Cottica</td>
+        <td>29210</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Cordoba</td>
+        <td>321376</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Maradi</td>
+        <td>232555</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tahoua</td>
+        <td>115956</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Constanta</td>
+        <td>303399</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Luleå</td>
+        <td>48638</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Sundsvall</td>
+        <td>73389</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Iasi</td>
+        <td>325914</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Surat Thani</td>
+        <td>157627</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Chiang Mai</td>
+        <td>397211</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nakhon Ratchasima</td>
+        <td>334984</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mbabane</td>
+        <td>90138</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Piura</td>
+        <td>396932</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Arequipa</td>
+        <td>815000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Chimbote</td>
+        <td>349846</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Pucallpa</td>
+        <td>310750</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Iquitos</td>
+        <td>458729</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Huancayo</td>
+        <td>412733</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ciudad del Este</td>
+        <td>320872</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ponta Delgada</td>
+        <td>61526</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Vigo</td>
+        <td>378952</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bilbao</td>
+        <td>875552</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kaolack</td>
+        <td>277812</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kaedi</td>
+        <td>21656</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Geneina</td>
+        <td>162981</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Medina</td>
+        <td>1010000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Tabuk</td>
+        <td>547957</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Juba</td>
+        <td>111975</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Malakal</td>
+        <td>160765</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Omdurman</td>
+        <td>2395159</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>El Obeid</td>
+        <td>393311</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>The Hague</td>
+        <td>1406000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Kristiansand</td>
+        <td>63814</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ljubljana</td>
+        <td>314807</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bratislava</td>
+        <td>423737</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Hammerfest</td>
+        <td>10000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Doha</td>
+        <td>1450000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Quetta</td>
+        <td>768000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Larkana</td>
+        <td>364033</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Springbok</td>
+        <td>10438</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Upington</td>
+        <td>71373</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Worcester</td>
+        <td>127597</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>George</td>
+        <td>174582</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tete</td>
+        <td>129316</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Pemba</td>
+        <td>110643</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nampula</td>
+        <td>388526</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Welkom</td>
+        <td>431944</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Xai-Xai</td>
+        <td>128805</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Goroka</td>
+        <td>39699</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mt. Hagen</td>
+        <td>59064</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Rabaul</td>
+        <td>8074</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Lae</td>
+        <td>131052</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>David</td>
+        <td>110037</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Oujda</td>
+        <td>409391</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Safi</td>
+        <td>353476</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Podgorica</td>
+        <td>145850</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Quelimane</td>
+        <td>188964</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>East London</td>
+        <td>338627</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Middelburg</td>
+        <td>18164</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Naltchik</td>
+        <td>307866</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Stavropol</td>
+        <td>363064</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ugolnye Kopi</td>
+        <td>3367</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kaliningrad</td>
+        <td>434954</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Pskov</td>
+        <td>201990</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bryansk</td>
+        <td>427236</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Smolensk</td>
+        <td>320991</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Petrozavodsk</td>
+        <td>265025</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tver</td>
+        <td>400212</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Vologda</td>
+        <td>294889</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Yaroslavl</td>
+        <td>606730</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Rostov</td>
+        <td>1052000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Sochi</td>
+        <td>327608</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Krasnodar</td>
+        <td>649851</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Penza</td>
+        <td>512602</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ryazan</td>
+        <td>520173</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Voronezh</td>
+        <td>844000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Magnitogorsk</td>
+        <td>413351</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Chelyabinsk</td>
+        <td>1091000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Vorkuta</td>
+        <td>80039</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kirov</td>
+        <td>457437</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nizhny Tagil</td>
+        <td>381116</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Astrakhan</td>
+        <td>502533</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Orenburg</td>
+        <td>550204</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Saratov</td>
+        <td>843000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ulyanovsk</td>
+        <td>640680</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Omsk</td>
+        <td>1135000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Tyumen</td>
+        <td>519119</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Novokuznetsk</td>
+        <td>539616</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kemerovo</td>
+        <td>477090</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Groznyy</td>
+        <td>226100</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kandy</td>
+        <td>111701</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Sri Jawewardenepura Kotte</td>
+        <td>115826</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Daejeon</td>
+        <td>1468000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Gwangju</td>
+        <td>1440000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Busan</td>
+        <td>3480000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Zamboanga</td>
+        <td>773000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Laoag</td>
+        <td>207048</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Baguio City</td>
+        <td>447824</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>General Santos</td>
+        <td>950530</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ust-Ulimsk</td>
+        <td>100271</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Angarsk</td>
+        <td>243158</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Abakan</td>
+        <td>167289</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Norilsk</td>
+        <td>165873</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Khatanga</td>
+        <td>3205</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kyzyl</td>
+        <td>108240</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ulan Ude</td>
+        <td>360278</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Blagoveshchensk</td>
+        <td>221296</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bukachacha</td>
+        <td>3372</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Dalnegorsk</td>
+        <td>8123</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ambarchik</td>
+        <td>0</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Batagay</td>
+        <td>4266</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Chokurdakh</td>
+        <td>2506</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ust Nera</td>
+        <td>9148</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Lensk</td>
+        <td>25589</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Aldan</td>
+        <td>24426</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mirnyy</td>
+        <td>40308</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Zhigansk</td>
+        <td>3237</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Okhotsk</td>
+        <td>5570</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Khabarovsk</td>
+        <td>579000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Okha</td>
+        <td>26560</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Yuzhno Sakhalinsk</td>
+        <td>176484</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mexicali</td>
+        <td>885000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>La Paz</td>
+        <td>189767</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Torreon</td>
+        <td>1144000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Culiacan</td>
+        <td>809000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nogales</td>
+        <td>178097</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Hermosillo</td>
+        <td>595811</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Guaymas</td>
+        <td>103449</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>San Luis Potosi</td>
+        <td>992000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Matamoros</td>
+        <td>538785</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nuevo Laredo</td>
+        <td>349550</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Colima</td>
+        <td>223287</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Campeche</td>
+        <td>205212</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Oaxaca</td>
+        <td>530728</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Leon</td>
+        <td>1488000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Maiduguri</td>
+        <td>896000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Port Harcourt</td>
+        <td>1020000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Makurdi</td>
+        <td>292645</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ibadan</td>
+        <td>2628000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Ogbomosho</td>
+        <td>951000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Warri</td>
+        <td>830106</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kaduna</td>
+        <td>1442000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Gdansk</td>
+        <td>740000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kraków</td>
+        <td>756000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Dalandzadgad</td>
+        <td>15093</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Wonsan</td>
+        <td>329207</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Sinuiju</td>
+        <td>288112</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Dund-Us</td>
+        <td>30500</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Choybalsan</td>
+        <td>33376</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Lüderitz</td>
+        <td>15137</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Walvis Bay</td>
+        <td>52058</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mwanza</td>
+        <td>493944</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Morogoro</td>
+        <td>250902</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Dodoma</td>
+        <td>218269</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Arusha</td>
+        <td>341136</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Napier</td>
+        <td>56787</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Manukau</td>
+        <td>362000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Hamilton</td>
+        <td>112145</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Blenheim</td>
+        <td>26550</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Dunedin</td>
+        <td>114347</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bern</td>
+        <td>275329</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Malmö</td>
+        <td>269349</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Laayoune</td>
+        <td>188084</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ternate</td>
+        <td>187521</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ambon</td>
+        <td>355596</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Raba</td>
+        <td>106101</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Jayapura</td>
+        <td>169341</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Florence</td>
+        <td>1500000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Catania</td>
+        <td>674542</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Pristina</td>
+        <td>465186</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Meru</td>
+        <td>47226</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Eldoret</td>
+        <td>353381</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Banda Aceh</td>
+        <td>513698</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>George Town</td>
+        <td>2500000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Zhangye</td>
+        <td>230728</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Wuwei</td>
+        <td>493092</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Dunhuang</td>
+        <td>140094</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tianshui</td>
+        <td>1225000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Dulan</td>
+        <td>100</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Golmud</td>
+        <td>107092</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Yulin</td>
+        <td>1127000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Bose</td>
+        <td>175282</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Wuzhou</td>
+        <td>442315</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Lupanshui</td>
+        <td>1221000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Quanzhou</td>
+        <td>1463000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Hefei</td>
+        <td>2035000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Suzhou</td>
+        <td>1964000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Zhanjiang</td>
+        <td>1590000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Shaoguan</td>
+        <td>720266</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Balikpapan</td>
+        <td>445905</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kuching</td>
+        <td>570407</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Antsiranana</td>
+        <td>82937</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Fianarantsoa</td>
+        <td>184184</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mahajanga</td>
+        <td>154657</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Toliara</td>
+        <td>115319</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Surakarta</td>
+        <td>555308</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bandar Lampung</td>
+        <td>865000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tanjungpandan</td>
+        <td>62374</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Malang</td>
+        <td>805000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kupang</td>
+        <td>282396</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Parepare</td>
+        <td>87776</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Cuenca</td>
+        <td>286878</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Santa Cruz</td>
+        <td>11262</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Puerto Limon</td>
+        <td>85001</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Santiago de Cuba</td>
+        <td>555865</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Santiago</td>
+        <td>1550753</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Manizales</td>
+        <td>375848</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Pasto</td>
+        <td>382236</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Barranquilla</td>
+        <td>1798000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Roseau</td>
+        <td>23336</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mbandaka</td>
+        <td>274996</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Moundou</td>
+        <td>156705</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Suez</td>
+        <td>508335</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bur Said</td>
+        <td>623864</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>El Faiyum</td>
+        <td>316772</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Aswan</td>
+        <td>313442</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Asyut</td>
+        <td>420585</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kisangani</td>
+        <td>578470</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Assab</td>
+        <td>105496</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Djibouti</td>
+        <td>923000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Dresden</td>
+        <td>617515</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Xigaze</td>
+        <td>80000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Shache</td>
+        <td>373492</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Yining</td>
+        <td>403489</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Altay</td>
+        <td>142000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Putrajaya</td>
+        <td>67964</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Shizuishan</td>
+        <td>136570</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Yulin</td>
+        <td>155960</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ankang</td>
+        <td>1100000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Houma</td>
+        <td>102400</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Yueyang</td>
+        <td>826000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Hengyang</td>
+        <td>1016000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Mianyang</td>
+        <td>1396000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Xichang</td>
+        <td>379993</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Baoshan</td>
+        <td>1000000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Gejiu</td>
+        <td>149105</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Shijianzhuang</td>
+        <td>2417000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Handan</td>
+        <td>1631000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Anshan</td>
+        <td>1639000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Dalian</td>
+        <td>3167000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Qingdao</td>
+        <td>2866000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Linyi</td>
+        <td>2082000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Huaiyin</td>
+        <td>1264000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Wenzhou</td>
+        <td>2350000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Ningbo</td>
+        <td>1923000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Fukuoka</td>
+        <td>2792000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Miyazaki</td>
+        <td>324384</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Naha</td>
+        <td>905238</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kochi</td>
+        <td>335570</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Gorontalo</td>
+        <td>365497</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tongliao</td>
+        <td>884000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Hohhot</td>
+        <td>1726000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Chifeng</td>
+        <td>1277000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Ulanhot</td>
+        <td>241894</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Hailar</td>
+        <td>231171</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Jiamusi</td>
+        <td>1020000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Beian</td>
+        <td>154936</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Daqing</td>
+        <td>1693000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Jixi</td>
+        <td>965000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nagoya</td>
+        <td>3230000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Nagano</td>
+        <td>594311</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kushiro</td>
+        <td>198566</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Hakodate</td>
+        <td>302984</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kyoto</td>
+        <td>1805000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Sendai</td>
+        <td>2250000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Sakata</td>
+        <td>100446</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bandundu</td>
+        <td>118211</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kananga</td>
+        <td>765000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kasongo</td>
+        <td>63000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mbuji-Mayi</td>
+        <td>1295000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Kalemie</td>
+        <td>206257</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Butembo</td>
+        <td>286403</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Goma</td>
+        <td>144124</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mzuzu</td>
+        <td>110201</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Blantyre</td>
+        <td>584877</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Quetzaltenango</td>
+        <td>575263</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Banjul</td>
+        <td>43094</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Faridabad</td>
+        <td>1394000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Srinagar</td>
+        <td>1140000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Vijayawada</td>
+        <td>1137000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Thiruvananthapuram</td>
+        <td>954000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kochi</td>
+        <td>1519000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Cuttack</td>
+        <td>580000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Hubli</td>
+        <td>890000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mangalore</td>
+        <td>776632</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mysore</td>
+        <td>887000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Gulbarga</td>
+        <td>483615</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kolhapur</td>
+        <td>750000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nanded</td>
+        <td>623708</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Akola</td>
+        <td>503502</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Guwahati</td>
+        <td>983000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kayes</td>
+        <td>62521</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Franceville</td>
+        <td>42967</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bordeaux</td>
+        <td>803000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Marseille</td>
+        <td>1400000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Le Havre</td>
+        <td>242124</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Gao</td>
+        <td>116967</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Coihaique</td>
+        <td>45787</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Arica</td>
+        <td>185999</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Copiapo</td>
+        <td>129280</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>La Serena</td>
+        <td>154521</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Los Angeles</td>
+        <td>145239</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Narsarsuaq</td>
+        <td>145</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Sisimiut</td>
+        <td>5227</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Upernavik</td>
+        <td>1129</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Qaanaaq</td>
+        <td>616</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nouadhibou</td>
+        <td>86738</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kayes</td>
+        <td>77207</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ayoun el Atrous</td>
+        <td>1423</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Segou</td>
+        <td>122952</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Skopje</td>
+        <td>494087</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Al Jawf</td>
+        <td>24132</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tmassah</td>
+        <td>500</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Misratah</td>
+        <td>386120</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Zuwarah</td>
+        <td>180310</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kirkuk</td>
+        <td>601433</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mosul</td>
+        <td>1316000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>An Najaf</td>
+        <td>665552</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bahir Dar</td>
+        <td>206748</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mekele</td>
+        <td>95856</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Dire Dawa</td>
+        <td>252279</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Rovaniemi</td>
+        <td>34781</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Vaasa</td>
+        <td>57014</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tampere</td>
+        <td>259279</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Aqtobe</td>
+        <td>262457</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Rudny</td>
+        <td>124000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Qyzylorda</td>
+        <td>300000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Atyrau</td>
+        <td>182753</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ekibastuz</td>
+        <td>127868</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Pavlodar</td>
+        <td>329002</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Semey</td>
+        <td>311353</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Oskemen</td>
+        <td>319067</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Yazd</td>
+        <td>477905</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ahvaz</td>
+        <td>996000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Basra</td>
+        <td>870000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bandar-e-Abbas</td>
+        <td>461499</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Hamadan</td>
+        <td>528256</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tabriz</td>
+        <td>1413000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Ludhiana</td>
+        <td>1649000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Kota</td>
+        <td>827000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Jodhpur</td>
+        <td>995000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Shymkent</td>
+        <td>465392</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Taraz</td>
+        <td>358153</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Lucknow</td>
+        <td>2695000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Saharanpur</td>
+        <td>484873</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ranchi</td>
+        <td>1044000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Bhagalpur</td>
+        <td>361548</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Raipur</td>
+        <td>875000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Jabalpur</td>
+        <td>1285000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Indore</td>
+        <td>2026000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Pondicherry</td>
+        <td>227411</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Salem</td>
+        <td>873000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tiruchirappalli</td>
+        <td>951000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Pointe-Noire</td>
+        <td>659084</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kankan</td>
+        <td>114009</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nzerekore</td>
+        <td>168121</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bouake</td>
+        <td>567481</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>St.-Denis</td>
+        <td>190047</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Rio Branco</td>
+        <td>257642</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>São Luís</td>
+        <td>1038000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Porto Velho</td>
+        <td>306180</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Alvorada</td>
+        <td>10232</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Corumba</td>
+        <td>96520</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Belo Horizonte</td>
+        <td>5575000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Montes Claros</td>
+        <td>332379</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Uberlandia</td>
+        <td>563536</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Colider</td>
+        <td>27139</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Alta Floresta</td>
+        <td>40466</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Cuiaba</td>
+        <td>806000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Pelotas</td>
+        <td>320674</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Caxias do Sul</td>
+        <td>381270</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ponta Grossa</td>
+        <td>292177</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Teresina</td>
+        <td>907000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Maceio</td>
+        <td>1186000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Vitoria da Conquista</td>
+        <td>308204</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Barreiras</td>
+        <td>158292</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Vila Velha</td>
+        <td>1209091</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Natal</td>
+        <td>1088000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Thompson</td>
+        <td>13727</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Brandon</td>
+        <td>28418</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Fort Smith</td>
+        <td>518</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Fort McMurray</td>
+        <td>21863</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Peace River</td>
+        <td>5340</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Fort St. John</td>
+        <td>18776</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Iqaluit</td>
+        <td>6124</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Cambridge Bay</td>
+        <td>1477</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kugluktuk</td>
+        <td>1302</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Chesterfield Inlet</td>
+        <td>374</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Arviat</td>
+        <td>1868</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Taloyoak</td>
+        <td>774</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Igloolik</td>
+        <td>1612</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Dawson City</td>
+        <td>1319</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Timmins</td>
+        <td>34974</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>North Bay</td>
+        <td>50170</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kuujjuarapik</td>
+        <td>1243</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kuujjuaq</td>
+        <td>1273</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Sydney</td>
+        <td>37538</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Labrador City</td>
+        <td>10313</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ebolowa</td>
+        <td>87875</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bambari</td>
+        <td>62098</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Venice</td>
+        <td>270816</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>El Calafate</td>
+        <td>8000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>San Juan</td>
+        <td>447048</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Rawson</td>
+        <td>26335</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Neuquen</td>
+        <td>242092</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Trinidad</td>
+        <td>84259</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Santa Rosa</td>
+        <td>111424</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>San Carlos de Bariloche</td>
+        <td>95394</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Salta</td>
+        <td>512686</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tucumán</td>
+        <td>830000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Formosa</td>
+        <td>221383</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Santa Fe</td>
+        <td>489505</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Rosario</td>
+        <td>1203000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Campinas</td>
+        <td>2791000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Sorocaba</td>
+        <td>563281</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ribeirao Preto</td>
+        <td>551267</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Petrolina</td>
+        <td>260985</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bamenda</td>
+        <td>445299</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Garoua</td>
+        <td>436899</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Herat</td>
+        <td>481009</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mazar-e Sharif</td>
+        <td>458151</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Battambang</td>
+        <td>154773</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Siem Reap</td>
+        <td>109398</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Malanje</td>
+        <td>125856</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Benguela</td>
+        <td>151226</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Lubango</td>
+        <td>125632</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Namibe</td>
+        <td>132900</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tarija</td>
+        <td>159269</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bridgetown</td>
+        <td>191152</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Annaba</td>
+        <td>503524</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Parakou</td>
+        <td>188853</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Porto-Novo</td>
+        <td>300000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Constantine</td>
+        <td>605179</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Brest</td>
+        <td>300715</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Khulna</td>
+        <td>1553000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Francistown</td>
+        <td>89979</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mahalapye</td>
+        <td>50744</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Serowe</td>
+        <td>48573</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Katherine</td>
+        <td>10141</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Busselton</td>
+        <td>10214</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mandurah</td>
+        <td>73356</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Broome</td>
+        <td>13218</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kalgoorlie</td>
+        <td>36852</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Albany</td>
+        <td>26445</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Port Hedland</td>
+        <td>14288</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Karratha</td>
+        <td>16796</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Geraldton</td>
+        <td>27258</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Griffith</td>
+        <td>15455</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Orange</td>
+        <td>39329</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Dubbo</td>
+        <td>31574</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Armidale</td>
+        <td>22673</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Broken Hill</td>
+        <td>17395</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Port Lincoln</td>
+        <td>13630</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Whyalla</td>
+        <td>22559</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Portland</td>
+        <td>11808</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bendigo</td>
+        <td>81657</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Wangaratta</td>
+        <td>14022</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Windorah</td>
+        <td>158</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mount Isa</td>
+        <td>33200</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Rockhampton</td>
+        <td>65850</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Cairns</td>
+        <td>154225</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Gold Coast</td>
+        <td>527660</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Devonport</td>
+        <td>19317</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bobo Dioulasso</td>
+        <td>360106</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Rajshahi</td>
+        <td>810000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mandalay</td>
+        <td>1300000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Sittwe</td>
+        <td>179032</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bujumbura</td>
+        <td>331700</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Pago Pago</td>
+        <td>12576</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kingstown</td>
+        <td>49485</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Castries</td>
+        <td>37963</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Basseterre</td>
+        <td>21887</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Las Palmas</td>
+        <td>378495</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Berbera</td>
+        <td>242344</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Port Louis</td>
+        <td>595491</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Gaza</td>
+        <td>505700</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Saint George&#x27;s</td>
+        <td>33734</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Papeete</td>
+        <td>131695</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Manama</td>
+        <td>563920</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Freeport</td>
+        <td>25383</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Saint John&#x27;s</td>
+        <td>35499</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Taichung</td>
+        <td>2629323</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Kozhikode</td>
+        <td>953000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bhubaneshwar</td>
+        <td>844000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Jamshedpur</td>
+        <td>1300000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Montevideo</td>
+        <td>1513000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Helena</td>
+        <td>38725</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bismarck</td>
+        <td>63871</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Boise</td>
+        <td>338071</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>San Jose</td>
+        <td>1668000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Sacramento</td>
+        <td>1604000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Las Vegas</td>
+        <td>1823000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Santa Fe</td>
+        <td>92681</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Portland</td>
+        <td>1875000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Salt Lake City</td>
+        <td>966000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Cheyenne</td>
+        <td>72927</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Des Moines</td>
+        <td>380655</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Omaha</td>
+        <td>877110</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Oklahoma City</td>
+        <td>788000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Pierre</td>
+        <td>13879</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>San Antonio</td>
+        <td>1473000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>San Cristobal</td>
+        <td>438798</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Valencia</td>
+        <td>1770000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Jackson</td>
+        <td>250902</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Raleigh</td>
+        <td>1163515</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Cleveland</td>
+        <td>1890000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Cincinnati</td>
+        <td>1636000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Nashville</td>
+        <td>877000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Memphis</td>
+        <td>1081000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Norfolk</td>
+        <td>1047869</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Milwaukee</td>
+        <td>1388000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Buffalo</td>
+        <td>1016000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Pittsburgh</td>
+        <td>1838000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Ciudad Guayana</td>
+        <td>746535</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Lome</td>
+        <td>1452000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Tunis</td>
+        <td>2412500</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Kodiak</td>
+        <td>9461</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Cold Bay</td>
+        <td>200</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bethel</td>
+        <td>6228</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Point Hope</td>
+        <td>461</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Barrow</td>
+        <td>4336</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nome</td>
+        <td>3485</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Valdez</td>
+        <td>4036</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Juneau</td>
+        <td>30711</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Fairbanks</td>
+        <td>56993</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Prudhoe Bay</td>
+        <td>2500</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Sevastapol</td>
+        <td>379200</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Abu Dhabi</td>
+        <td>603492</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ashgabat</td>
+        <td>727700</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Samarqand</td>
+        <td>708000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Lusaka</td>
+        <td>1328000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Harare</td>
+        <td>1572000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Bulawayo</td>
+        <td>699385</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Dili</td>
+        <td>234331</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Port Vila</td>
+        <td>44040</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tegucigalpa</td>
+        <td>946000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Georgetown</td>
+        <td>264350</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Reykjavík</td>
+        <td>166212</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Port-au-Prince</td>
+        <td>1998000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Glasgow</td>
+        <td>1160000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Kampala</td>
+        <td>1420000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Aden</td>
+        <td>1000000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Paramaribo</td>
+        <td>254169</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Seville</td>
+        <td>1212045</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Zinder</td>
+        <td>230358</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Niamey</td>
+        <td>915000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Port Sudan</td>
+        <td>489725</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Dushanbe</td>
+        <td>1086244</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Cusco</td>
+        <td>361182</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tacna</td>
+        <td>280098</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Trujillo</td>
+        <td>765171</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ica</td>
+        <td>279420</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Asuncion</td>
+        <td>1870000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Managua</td>
+        <td>920000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Freetown</td>
+        <td>827000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Agadez</td>
+        <td>117770</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Niyala</td>
+        <td>392373</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Wau</td>
+        <td>127384</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Dongola</td>
+        <td>26404</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kassala</td>
+        <td>401477</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tromsø</td>
+        <td>52436</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Trondheim</td>
+        <td>147139</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bergen</td>
+        <td>213585</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Islamabad</td>
+        <td>780000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Multan</td>
+        <td>1522000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Hyderabad</td>
+        <td>1459000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Peshawar</td>
+        <td>1303000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Kathmandu</td>
+        <td>895000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nacala</td>
+        <td>224795</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bloemfontein</td>
+        <td>463064</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Pretoria</td>
+        <td>1338000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Port Moresby</td>
+        <td>283733</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Honiara</td>
+        <td>76328</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Panama City</td>
+        <td>1281000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Fez</td>
+        <td>1002000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Rabat</td>
+        <td>1705000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Marrakesh</td>
+        <td>872000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Chisinau</td>
+        <td>688134</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Beira</td>
+        <td>530604</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Port Elizabeth</td>
+        <td>1021000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Maputo</td>
+        <td>1446000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Tomsk</td>
+        <td>535479</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Anadyr</td>
+        <td>10332</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Murmansk</td>
+        <td>319263</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Archangel</td>
+        <td>356051</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nizhny Novgorod</td>
+        <td>1278000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Volgograd</td>
+        <td>984000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ufa</td>
+        <td>1018000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Yekaterinburg</td>
+        <td>1313000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Samara</td>
+        <td>1137000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Kazan</td>
+        <td>1115000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Surgut</td>
+        <td>400000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Barnaul</td>
+        <td>599579</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Novosibirsk</td>
+        <td>1389000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Mogadishu</td>
+        <td>1100000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Muscat</td>
+        <td>734697</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Colombo</td>
+        <td>217000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Cebu</td>
+        <td>815000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Iloilo</td>
+        <td>387681</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Davao</td>
+        <td>1402000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Bratsk</td>
+        <td>246348</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Irkutsk</td>
+        <td>586695</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Krasnoyarsk</td>
+        <td>925000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Dickson</td>
+        <td>1113</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Chita</td>
+        <td>308500</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Vladivostok</td>
+        <td>587022</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nizhneyansk</td>
+        <td>400</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Yakutsk</td>
+        <td>235600</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tiksi</td>
+        <td>5700</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Magadan</td>
+        <td>95282</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tijuana</td>
+        <td>1553000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Chihuahua</td>
+        <td>793000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mazatlan</td>
+        <td>368204</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tampico</td>
+        <td>859419</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Acapulco</td>
+        <td>715584</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Veracruz</td>
+        <td>578963</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tuxtla Gutierrez</td>
+        <td>481128</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Cancun</td>
+        <td>542043</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Merida</td>
+        <td>965000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Enugu</td>
+        <td>688862</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Sokoto</td>
+        <td>732178</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Perm</td>
+        <td>997000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Erdenet</td>
+        <td>79647</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ulaanbaatar</td>
+        <td>885000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Wellington</td>
+        <td>393400</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mbeya</td>
+        <td>291649</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Windhoek</td>
+        <td>268132</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Grootfontein</td>
+        <td>24099</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Zanzibar</td>
+        <td>403658</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Christchurch</td>
+        <td>363926</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Valencia</td>
+        <td>808000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Palana</td>
+        <td>3671</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Petropavlovsk Kamchatskiy</td>
+        <td>187282</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Abuja</td>
+        <td>1576000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Padang</td>
+        <td>855000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bissau</td>
+        <td>403339</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Palermo</td>
+        <td>863000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Amman</td>
+        <td>1060000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Vilnius</td>
+        <td>542366</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Riga</td>
+        <td>742572</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bishkek</td>
+        <td>837000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Jiayuguan</td>
+        <td>148279</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Xining</td>
+        <td>1048000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Guilin</td>
+        <td>987000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Huainan</td>
+        <td>1451000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Shantou</td>
+        <td>1601000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Tarakan</td>
+        <td>193069</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mombasa</td>
+        <td>882000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Maseru</td>
+        <td>361324</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Antananarivo</td>
+        <td>1697000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Semarang</td>
+        <td>1396000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Palembang</td>
+        <td>1749000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Bandjarmasin</td>
+        <td>603576</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ujungpandang</td>
+        <td>1262000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Lyon</td>
+        <td>1423000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Quito</td>
+        <td>1701000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>San Jose</td>
+        <td>1284000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>San Salvador</td>
+        <td>1433000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Kingston</td>
+        <td>937700</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Cartagena</td>
+        <td>887000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mitu</td>
+        <td>5917</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bumba</td>
+        <td>160539</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ndjamena</td>
+        <td>989000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Abeche</td>
+        <td>158317</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Malabo</td>
+        <td>155963</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Luxor</td>
+        <td>609248</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Asmara</td>
+        <td>620802</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Zagreb</td>
+        <td>722526</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tallinn</td>
+        <td>394024</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Lhasa</td>
+        <td>219599</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Hami</td>
+        <td>300848</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Hotan</td>
+        <td>261730</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kashgar</td>
+        <td>543914</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Yinchuan</td>
+        <td>991000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Pingxiang</td>
+        <td>961000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nagasaki</td>
+        <td>435455</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Qiqihar</td>
+        <td>1641000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Kikwit</td>
+        <td>637736</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Matadi</td>
+        <td>245862</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kolwezi</td>
+        <td>418000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Lubumbashi</td>
+        <td>1352000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Lilongwe</td>
+        <td>646750</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Guatemala</td>
+        <td>1024000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Cayenne</td>
+        <td>61550</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Libreville</td>
+        <td>578156</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Vishakhapatnam</td>
+        <td>1529000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Suva</td>
+        <td>175399</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Port-Gentil</td>
+        <td>116836</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Timbuktu</td>
+        <td>68872</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Punta Arenas</td>
+        <td>117430</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Iquique</td>
+        <td>227499</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Antofagasta</td>
+        <td>309832</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Valparaiso</td>
+        <td>854000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Valdivia</td>
+        <td>159599</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Concepcion</td>
+        <td>889725</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Puerto Montt</td>
+        <td>174629</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nuuk</td>
+        <td>14798</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nouakchott</td>
+        <td>742144</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bamako</td>
+        <td>1494000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Atar</td>
+        <td>44265</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Djenne</td>
+        <td>32944</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Sabha</td>
+        <td>100249</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Banghazi</td>
+        <td>1180000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Thessaloniki</td>
+        <td>828000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Beirut</td>
+        <td>1846000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Tbilisi</td>
+        <td>1100000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Gonder</td>
+        <td>156230</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Astana</td>
+        <td>345604</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Qaraghandy</td>
+        <td>451800</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Almaty</td>
+        <td>1209000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Isfahan</td>
+        <td>1628000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Shiraz</td>
+        <td>1240000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Amritsar</td>
+        <td>1212000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Varanasi</td>
+        <td>1352000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Asansol</td>
+        <td>1328000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Bhilai</td>
+        <td>1097000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Bhopal</td>
+        <td>1727000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Madurai</td>
+        <td>1294000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Coimbatore</td>
+        <td>1696000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Vientiane</td>
+        <td>754000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Brazzaville</td>
+        <td>1355000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Conakry</td>
+        <td>1494000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Yamoussoukro</td>
+        <td>206499</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Cruzeiro do Sul</td>
+        <td>56862</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Leticia</td>
+        <td>59575</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Manaus</td>
+        <td>1753000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Caxias</td>
+        <td>134640</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Santarem</td>
+        <td>230428</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Maraba</td>
+        <td>166182</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Vilhena</td>
+        <td>63231</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ji-Parana</td>
+        <td>65016</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Campo Grande</td>
+        <td>778000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Florianopolis</td>
+        <td>1023000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Feira de Santana</td>
+        <td>481911</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Winnipeg</td>
+        <td>632063</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Churchill</td>
+        <td>1000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Regina</td>
+        <td>176183</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Saskatoon</td>
+        <td>198958</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Calgary</td>
+        <td>1110000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Prince Rupert</td>
+        <td>14708</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Victoria</td>
+        <td>289625</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Arctic Bay</td>
+        <td>604</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Resolute</td>
+        <td>250</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Repulse Bay</td>
+        <td>1000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Yellowknife</td>
+        <td>19234</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Fort Good Hope</td>
+        <td>597</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Whitehorse</td>
+        <td>23276</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Boa Vista</td>
+        <td>235150</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Macapá</td>
+        <td>499166</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ottawa</td>
+        <td>1145000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Fort Severn</td>
+        <td>125</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Thunder Bay</td>
+        <td>99334</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Québec</td>
+        <td>624177</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Halifax</td>
+        <td>359111</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>St. Johns</td>
+        <td>131469</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nain</td>
+        <td>1151</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Charlottetown</td>
+        <td>42402</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ndele</td>
+        <td>11764</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Belgrade</td>
+        <td>1099000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Obo</td>
+        <td>12887</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bandar Seri Begawan</td>
+        <td>296500</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Puerto Deseado</td>
+        <td>3305</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Rio Gallegos</td>
+        <td>85700</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Comodoro Rivadavia</td>
+        <td>140850</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mendoza</td>
+        <td>893000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Sucre</td>
+        <td>224838</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Riberalta</td>
+        <td>74014</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bahia Blanca</td>
+        <td>281536</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Mar del Plata</td>
+        <td>555897</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Córdoba</td>
+        <td>1452000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Posadas</td>
+        <td>357119</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Belmopan</td>
+        <td>15220</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bangui</td>
+        <td>831925</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Maroua</td>
+        <td>319941</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Yaounde</td>
+        <td>1611000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Tirana</td>
+        <td>895350</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Yerevan</td>
+        <td>1102000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Baku</td>
+        <td>2122300</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Kandahar</td>
+        <td>715542</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Phnom Penh</td>
+        <td>1466000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Menongue</td>
+        <td>13030</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Huambo</td>
+        <td>1100000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>La Paz</td>
+        <td>1590000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Santa Cruz</td>
+        <td>2102998</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Oran</td>
+        <td>798000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Cotonou</td>
+        <td>762000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Tamanrasset</td>
+        <td>76000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ghardaia</td>
+        <td>125480</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Sofia</td>
+        <td>1185000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Minsk</td>
+        <td>1805000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Thimphu</td>
+        <td>98676</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Gaborone</td>
+        <td>208411</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Darwin</td>
+        <td>93080</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Alice Springs</td>
+        <td>27710</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Canberra</td>
+        <td>327700</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Newcastle</td>
+        <td>1134616</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Adelaide</td>
+        <td>1145000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Townsville</td>
+        <td>138954</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Brisbane</td>
+        <td>1860000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Hobart</td>
+        <td>80870</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Ouagadougou</td>
+        <td>1149000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Sarajevo</td>
+        <td>696731</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Naypyidaw</td>
+        <td>930000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>San Juan</td>
+        <td>2478905</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Stanley</td>
+        <td>2213</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Hamilton</td>
+        <td>52320</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nukualofa</td>
+        <td>42620</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Hargeysa</td>
+        <td>477876</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Victoria</td>
+        <td>33576</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Sao Tome</td>
+        <td>88219</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Apia</td>
+        <td>61916</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Valletta</td>
+        <td>368250</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Male</td>
+        <td>112927</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Jerusalem</td>
+        <td>1029300</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Praia</td>
+        <td>113364</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nassau</td>
+        <td>227940</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Nicosia</td>
+        <td>224300</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Kaohsiung</td>
+        <td>2769072</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Shenzhen</td>
+        <td>7581000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Zibo</td>
+        <td>3061000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Minneapolis</td>
+        <td>2616000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Honolulu</td>
+        <td>786000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Seattle</td>
+        <td>3074000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Phoenix</td>
+        <td>3551000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>San Diego</td>
+        <td>2916000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>St. Louis</td>
+        <td>2199000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>New Orleans</td>
+        <td>785000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Dallas</td>
+        <td>4798000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Maracaibo</td>
+        <td>2072000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Boston</td>
+        <td>4467000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Tampa</td>
+        <td>2314000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Philadelphia</td>
+        <td>5492000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Detroit</td>
+        <td>4101000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Anchorage</td>
+        <td>260283</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Hanoi</td>
+        <td>4378000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Ho Chi Minh City</td>
+        <td>5314000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Ankara</td>
+        <td>3716000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Budapest</td>
+        <td>1679000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Sanaa</td>
+        <td>2008000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Barcelona</td>
+        <td>4920000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Bucharest</td>
+        <td>1942000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Aleppo</td>
+        <td>2738000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Damascus</td>
+        <td>2466000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Zürich</td>
+        <td>1108000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Lisbon</td>
+        <td>2812000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Khartoum</td>
+        <td>4754000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Jeddah</td>
+        <td>3012000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Makkah</td>
+        <td>1385000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Oslo</td>
+        <td>835000</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Lahore</td>
+        <td>6577000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Karachi</td>
+        <td>12130000</td>
+        <td>Megacity</td>
+    </tr>
+    <tr>
+        <td>Durban</td>
+        <td>2729000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>St. Petersburg</td>
+        <td>4553000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Guadalajara</td>
+        <td>4198000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Puebla</td>
+        <td>2195000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Kano</td>
+        <td>3140000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Warsaw</td>
+        <td>1707000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Pyongyang</td>
+        <td>3300000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Dar es Salaam</td>
+        <td>2930000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Medan</td>
+        <td>2115000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Dublin</td>
+        <td>1059000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Monrovia</td>
+        <td>1041000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Naples</td>
+        <td>2250000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Milan</td>
+        <td>2945000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Kuala Lumpur</td>
+        <td>1448000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Lanzhou</td>
+        <td>2561000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Nanning</td>
+        <td>2167000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Guiyang</td>
+        <td>3662000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Chongqing</td>
+        <td>6461000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Fuzhou</td>
+        <td>2606000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Guangzhou</td>
+        <td>8829000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Dongguan</td>
+        <td>4528000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Bandung</td>
+        <td>2394000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Surabaya</td>
+        <td>2845000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Guayaquil</td>
+        <td>2514000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Medellin</td>
+        <td>3297000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Cali</td>
+        <td>2254000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Havana</td>
+        <td>2174000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Alexandria</td>
+        <td>4165000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Frankfurt</td>
+        <td>2895000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Hamburg</td>
+        <td>1757000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Munich</td>
+        <td>1275000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Prague</td>
+        <td>1162000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Kuwait</td>
+        <td>2063000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Xian</td>
+        <td>4009000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Taiyuan</td>
+        <td>2913000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Wuhan</td>
+        <td>7243000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Changsha</td>
+        <td>2604000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Kunming</td>
+        <td>2931000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Zhengzhou</td>
+        <td>2636000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Shenyeng</td>
+        <td>4787000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Jinan</td>
+        <td>2798000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Tianjin</td>
+        <td>7180000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Nanchang</td>
+        <td>2350000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Nanjing</td>
+        <td>3679000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Hangzhou</td>
+        <td>3007000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Hiroshima</td>
+        <td>2045000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Changchun</td>
+        <td>3183000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Baotou</td>
+        <td>2036000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Harbin</td>
+        <td>3621000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Sapporo</td>
+        <td>2544000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Santo Domingo</td>
+        <td>2154000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Accra</td>
+        <td>2121000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Delhi</td>
+        <td>15926000</td>
+        <td>Megacity</td>
+    </tr>
+    <tr>
+        <td>Hyderabad</td>
+        <td>6376000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Pune</td>
+        <td>4672000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Nagpur</td>
+        <td>2454000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Tripoli</td>
+        <td>2189000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Tel Aviv-Yafo</td>
+        <td>3112000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Helsinki</td>
+        <td>1115000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Mashhad</td>
+        <td>2469000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Jaipur</td>
+        <td>2917000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Kanpur</td>
+        <td>3162000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Patna</td>
+        <td>2158000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Chennai</td>
+        <td>7163000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Ahmedabad</td>
+        <td>5375000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Surat</td>
+        <td>3842000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>København</td>
+        <td>1085000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Abidjan</td>
+        <td>3802000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Belem</td>
+        <td>2167000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Brasilia</td>
+        <td>3716996</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Porto Alegre</td>
+        <td>3917000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Curitiba</td>
+        <td>3084000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Fortaleza</td>
+        <td>3602319</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Salvador</td>
+        <td>3484000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Edmonton</td>
+        <td>1058000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Montréal</td>
+        <td>3678000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Goiania</td>
+        <td>2022000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Recife</td>
+        <td>3651000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Brussels</td>
+        <td>1743000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Dhaka</td>
+        <td>12797394</td>
+        <td>Megacity</td>
+    </tr>
+    <tr>
+        <td>Luanda</td>
+        <td>5172900</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Algiers</td>
+        <td>3354000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Chittagong</td>
+        <td>4529000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Perth</td>
+        <td>1532000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Rangoon</td>
+        <td>4088000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>San Francisco</td>
+        <td>3450000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Denver</td>
+        <td>2313000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Houston</td>
+        <td>4459000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Miami</td>
+        <td>5585000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Atlanta</td>
+        <td>4506000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Chicago</td>
+        <td>8990000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Caracas</td>
+        <td>2985000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Kiev</td>
+        <td>2709000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Dubai</td>
+        <td>1379000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Tashkent</td>
+        <td>2184000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Madrid</td>
+        <td>5567000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Geneva</td>
+        <td>1240000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Stockholm</td>
+        <td>1264000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Bangkok</td>
+        <td>6704000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Lima</td>
+        <td>8012000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Dakar</td>
+        <td>2604000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Johannesburg</td>
+        <td>3435000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Amsterdam</td>
+        <td>1031000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Casablanca</td>
+        <td>3181000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Seoul</td>
+        <td>9796000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Manila</td>
+        <td>11100000</td>
+        <td>Megacity</td>
+    </tr>
+    <tr>
+        <td>Monterrey</td>
+        <td>3712000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Auckland</td>
+        <td>1245000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Berlin</td>
+        <td>3406000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Urumqi</td>
+        <td>2151000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Chengdu</td>
+        <td>4123000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Osaka</td>
+        <td>11294000</td>
+        <td>Megacity</td>
+    </tr>
+    <tr>
+        <td>Kinshasa</td>
+        <td>7843000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>New Delhi</td>
+        <td>317797</td>
+        <td>Small city</td>
+    </tr>
+    <tr>
+        <td>Bangalore</td>
+        <td>6787000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Athens</td>
+        <td>3242000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Baghdad</td>
+        <td>5054000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Addis Ababa</td>
+        <td>3100000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Tehran</td>
+        <td>7873000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Vancouver</td>
+        <td>2313328</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Toronto</td>
+        <td>5213000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Buenos Aires</td>
+        <td>12795000</td>
+        <td>Megacity</td>
+    </tr>
+    <tr>
+        <td>Kabul</td>
+        <td>3277000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Vienna</td>
+        <td>2400000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Melbourne</td>
+        <td>4170000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Taipei</td>
+        <td>6900273</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Los Angeles</td>
+        <td>12500000</td>
+        <td>Megacity</td>
+    </tr>
+    <tr>
+        <td>Washington D.C.</td>
+        <td>4338000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>New York</td>
+        <td>19040000</td>
+        <td>Megacity</td>
+    </tr>
+    <tr>
+        <td>London</td>
+        <td>8567000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Istanbul</td>
+        <td>10061000</td>
+        <td>Megacity</td>
+    </tr>
+    <tr>
+        <td>Riyadh</td>
+        <td>4465000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Cape Town</td>
+        <td>3215000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Moscow</td>
+        <td>10452000</td>
+        <td>Megacity</td>
+    </tr>
+    <tr>
+        <td>Mexico City</td>
+        <td>19028000</td>
+        <td>Megacity</td>
+    </tr>
+    <tr>
+        <td>Lagos</td>
+        <td>9466000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Rome</td>
+        <td>3339000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Beijing</td>
+        <td>11106000</td>
+        <td>Megacity</td>
+    </tr>
+    <tr>
+        <td>Nairobi</td>
+        <td>3010000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Jakarta</td>
+        <td>9125000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Bogota</td>
+        <td>7772000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Cairo</td>
+        <td>11893000</td>
+        <td>Megacity</td>
+    </tr>
+    <tr>
+        <td>Shanghai</td>
+        <td>14987000</td>
+        <td>Megacity</td>
+    </tr>
+    <tr>
+        <td>Tokyo</td>
+        <td>35676000</td>
+        <td>Megacity</td>
+    </tr>
+    <tr>
+        <td>Mumbai</td>
+        <td>18978000</td>
+        <td>Megacity</td>
+    </tr>
+    <tr>
+        <td>Paris</td>
+        <td>9904000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Santiago</td>
+        <td>5720000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Kolkata</td>
+        <td>14787000</td>
+        <td>Megacity</td>
+    </tr>
+    <tr>
+        <td>Rio de Janeiro</td>
+        <td>11748000</td>
+        <td>Megacity</td>
+    </tr>
+    <tr>
+        <td>Sao Paulo</td>
+        <td>18845000</td>
+        <td>Megacity</td>
+    </tr>
+    <tr>
+        <td>Sydney</td>
+        <td>4630000</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Singapore</td>
+        <td>5183700</td>
+        <td>Large city</td>
+    </tr>
+    <tr>
+        <td>Hong Kong</td>
+        <td>7206000</td>
+        <td>Large city</td>
+    </tr>
+</table></div></div>
+</div>
+</div>
+<div class="section" id="saving-results">
+<h2><span class="section-number">2.7. </span>Saving results<a class="headerlink" href="#saving-results" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT *
+INTO cities_new
+FROM cities
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1249 rows affected.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+DROP TABLE IF EXISTS cities_usa;
+
+SELECT *
+INTO cities_usa
+FROM cities
+WHERE country = &#39;USA&#39;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
+Done.
+114 rows affected.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span> 
+
+INSERT INTO cities_usa
+SELECT *
+FROM cities
+WHERE country = &#39;CAN&#39;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
+45 rows affected.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="sql-comments">
+<h2><span class="section-number">2.8. </span>SQL Comments<a class="headerlink" href="#sql-comments" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="single-line-coments">
+<h3><span class="section-number">2.8.1. </span>Single line coments<a class="headerlink" href="#single-line-coments" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT * FROM cities LIMIT 10 -- This is a comment;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>country</th>
+        <th>latitude</th>
+        <th>longitude</th>
+        <th>population</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Bombo</td>
+        <td>UGA</td>
+        <td>0.5833</td>
+        <td>32.5333</td>
+        <td>75000</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Fort Portal</td>
+        <td>UGA</td>
+        <td>0.671</td>
+        <td>30.275</td>
+        <td>42670</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>Potenza</td>
+        <td>ITA</td>
+        <td>40.642</td>
+        <td>15.799</td>
+        <td>69060</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>Campobasso</td>
+        <td>ITA</td>
+        <td>41.563</td>
+        <td>14.656</td>
+        <td>50762</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>Aosta</td>
+        <td>ITA</td>
+        <td>45.737</td>
+        <td>7.315</td>
+        <td>34062</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>Mariehamn</td>
+        <td>ALD</td>
+        <td>60.097</td>
+        <td>19.949</td>
+        <td>10682</td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td>Ramallah</td>
+        <td>PSE</td>
+        <td>31.90294</td>
+        <td>35.20621</td>
+        <td>24599</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>Vatican City</td>
+        <td>VAT</td>
+        <td>41.90001</td>
+        <td>12.44781</td>
+        <td>832</td>
+    </tr>
+    <tr>
+        <td>9</td>
+        <td>Poitier</td>
+        <td>FRA</td>
+        <td>46.58329</td>
+        <td>0.33328</td>
+        <td>85960</td>
+    </tr>
+    <tr>
+        <td>10</td>
+        <td>Clermont-Ferrand</td>
+        <td>FRA</td>
+        <td>45.77998</td>
+        <td>3.08001</td>
+        <td>233050</td>
+    </tr>
+</table></div></div>
+</div>
+</div>
+<div class="section" id="multi-line-comments">
+<h3><span class="section-number">2.8.2. </span>Multi-line comments<a class="headerlink" href="#multi-line-comments" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT COUNT(name), country 
+FROM cities 
+/*
+ * Adding Group by
+ * Adding Order by
+ */
+GROUP BY country 
+ORDER BY COUNT(name) DESC
+LIMIT 10
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>count</th>
+        <th>country</th>
+    </tr>
+    <tr>
+        <td>114</td>
+        <td>USA</td>
+    </tr>
+    <tr>
+        <td>100</td>
+        <td>CHN</td>
+    </tr>
+    <tr>
+        <td>81</td>
+        <td>RUS</td>
+    </tr>
+    <tr>
+        <td>69</td>
+        <td>IND</td>
+    </tr>
+    <tr>
+        <td>46</td>
+        <td>BRA</td>
+    </tr>
+    <tr>
+        <td>45</td>
+        <td>CAN</td>
+    </tr>
+    <tr>
+        <td>40</td>
+        <td>ATA</td>
+    </tr>
+    <tr>
+        <td>36</td>
+        <td>AUS</td>
+    </tr>
+    <tr>
+        <td>30</td>
+        <td>FRA</td>
+    </tr>
+    <tr>
+        <td>27</td>
+        <td>MEX</td>
+    </tr>
+</table></div></div>
+</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -107063,6 +115376,7 @@ SELECT &quot;Alpha3_code&quot; FROM countries
         <div class='prev-next-bottom'>
             
     <a class='left-prev' id="prev-link" href="installation.html" title="previous page"><span class="section-number">1. </span>Installation</a>
+    <a class='right-next' id="next-link" href="postgis_intro.html" title="next page"><span class="section-number">3. </span>Intro to PostGIS</a>
 
         </div>
         
