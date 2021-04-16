@@ -145,6 +145,11 @@
    4. Working with Geometries
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="spatial_relationships.html">
+   5. Spatial Relationships
+  </a>
+ </li>
 </ul>
 
 </nav> <!-- To handle the deprecated key -->
@@ -23510,7 +23515,9 @@ SELECT * FROM cities LIMIT 10
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
-10 rows affected.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10 rows affected.
 </pre></div>
 </div>
 <div class="output text_html"><table>
@@ -42444,7 +42451,9 @@ SELECT name, country, countries.&quot;Country&quot; FROM cities INNER JOIN count
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
-1244 rows affected.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1244 rows affected.
 </pre></div>
 </div>
 <div class="output text_html"><table>
@@ -48688,7 +48697,9 @@ SELECT * FROM cities LEFT JOIN countries ON cities.country = countries.&quot;Alp
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
-1249 rows affected.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1249 rows affected.
 </pre></div>
 </div>
 <div class="output text_html"><table>
@@ -107927,9 +107938,7 @@ ORDER BY COUNT(name) DESC
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>197 rows affected.
+197 rows affected.
 </pre></div>
 </div>
 <div class="output text_html"><table>

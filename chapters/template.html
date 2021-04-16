@@ -143,6 +143,11 @@
    4. Working with Geometries
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="spatial_relationships.html">
+   5. Spatial Relationships
+  </a>
+ </li>
 </ul>
 
 </nav> <!-- To handle the deprecated key -->
@@ -297,7 +302,7 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">host</span> <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span>
-<span class="n">database</span> <span class="o">=</span> <span class="s2">&quot;sdb&quot;</span>
+<span class="n">database</span> <span class="o">=</span> <span class="s2">&quot;nyc&quot;</span>
 <span class="n">user</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;SQL_USER&#39;</span><span class="p">)</span>
 <span class="n">password</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;SQL_PASSWORD&#39;</span><span class="p">)</span>
 </pre></div>
@@ -322,103 +327,117 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span> 
 
-SELECT * from cities LIMIT 10
+SELECT * from nyc_subway_stations LIMIT 5
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/sdb
-10 rows affected.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
+5 rows affected.
 </pre></div>
 </div>
 <div class="output text_html"><table>
     <tr>
         <th>id</th>
+        <th>geom</th>
+        <th>objectid</th>
         <th>name</th>
-        <th>country</th>
-        <th>latitude</th>
-        <th>longitude</th>
-        <th>population</th>
+        <th>alt_name</th>
+        <th>cross_st</th>
+        <th>long_name</th>
+        <th>label</th>
+        <th>borough</th>
+        <th>nghbhd</th>
+        <th>routes</th>
+        <th>transfers</th>
+        <th>color</th>
+        <th>express</th>
+        <th>closed</th>
     </tr>
     <tr>
+        <td>376</td>
+        <td>010100002026690000371775B5C3CE2141CBD2347771315141</td>
         <td>1</td>
-        <td>Bombo</td>
-        <td>UGA</td>
-        <td>0.5833</td>
-        <td>32.5333</td>
-        <td>75000</td>
+        <td>Cortlandt St</td>
+        <td>None</td>
+        <td>Church St</td>
+        <td>Cortlandt St (R,W) Manhattan</td>
+        <td>Cortlandt St (R,W)</td>
+        <td>Manhattan</td>
+        <td>None</td>
+        <td>R,W</td>
+        <td>R,W</td>
+        <td>YELLOW</td>
+        <td>None</td>
+        <td>None</td>
     </tr>
     <tr>
         <td>2</td>
-        <td>Fort Portal</td>
-        <td>UGA</td>
-        <td>0.671</td>
-        <td>30.275</td>
-        <td>42670</td>
+        <td>010100002026690000CBE327F938CD21415EDBE1572D315141</td>
+        <td>2</td>
+        <td>Rector St</td>
+        <td>None</td>
+        <td>None</td>
+        <td>Rector St (1) Manhattan</td>
+        <td>Rector St (1)</td>
+        <td>Manhattan</td>
+        <td>None</td>
+        <td>1</td>
+        <td>1</td>
+        <td>RED</td>
+        <td>None</td>
+        <td>None</td>
     </tr>
     <tr>
+        <td>1</td>
+        <td>010100002026690000C676635D10CD2141A0ECDB6975305141</td>
         <td>3</td>
-        <td>Potenza</td>
-        <td>ITA</td>
-        <td>40.642</td>
-        <td>15.799</td>
-        <td>69060</td>
+        <td>South Ferry</td>
+        <td>None</td>
+        <td>None</td>
+        <td>South Ferry (1) Manhattan</td>
+        <td>South Ferry (1)</td>
+        <td>Manhattan</td>
+        <td>None</td>
+        <td>1</td>
+        <td>1</td>
+        <td>RED</td>
+        <td>None</td>
+        <td>None</td>
     </tr>
     <tr>
+        <td>125</td>
+        <td>010100002026690000F4CF3E3654032241B5704681A73C5141</td>
         <td>4</td>
-        <td>Campobasso</td>
-        <td>ITA</td>
-        <td>41.563</td>
-        <td>14.656</td>
-        <td>50762</td>
+        <td>138th St</td>
+        <td>Grand Concourse</td>
+        <td>Grand Concourse</td>
+        <td>138th St / Grand Concourse (4,5) Bronx</td>
+        <td>138th St / Grand Concourse (4,5)</td>
+        <td>Bronx</td>
+        <td>None</td>
+        <td>4,5</td>
+        <td>4,5</td>
+        <td>GREEN</td>
+        <td>None</td>
+        <td>None</td>
     </tr>
     <tr>
+        <td>126</td>
+        <td>01010000202669000084DADF7AED0422410C380E6E3A3D5141</td>
         <td>5</td>
-        <td>Aosta</td>
-        <td>ITA</td>
-        <td>45.737</td>
-        <td>7.315</td>
-        <td>34062</td>
-    </tr>
-    <tr>
-        <td>6</td>
-        <td>Mariehamn</td>
-        <td>ALD</td>
-        <td>60.097</td>
-        <td>19.949</td>
-        <td>10682</td>
-    </tr>
-    <tr>
-        <td>7</td>
-        <td>Ramallah</td>
-        <td>PSE</td>
-        <td>31.90294</td>
-        <td>35.20621</td>
-        <td>24599</td>
-    </tr>
-    <tr>
-        <td>8</td>
-        <td>Vatican City</td>
-        <td>VAT</td>
-        <td>41.90001</td>
-        <td>12.44781</td>
-        <td>832</td>
-    </tr>
-    <tr>
-        <td>9</td>
-        <td>Poitier</td>
-        <td>FRA</td>
-        <td>46.58329</td>
-        <td>0.33328</td>
-        <td>85960</td>
-    </tr>
-    <tr>
-        <td>10</td>
-        <td>Clermont-Ferrand</td>
-        <td>FRA</td>
-        <td>45.77998</td>
-        <td>3.08001</td>
-        <td>233050</td>
+        <td>149th St</td>
+        <td>Grand Concourse</td>
+        <td>Grand Concourse</td>
+        <td>149th St / Grand Concourse (4) Bronx</td>
+        <td>149th St / Grand Concourse (4)</td>
+        <td>Bronx</td>
+        <td>None</td>
+        <td>4</td>
+        <td>2,4,5</td>
+        <td>GREEN</td>
+        <td>express</td>
+        <td>None</td>
     </tr>
 </table></div></div>
 </div>
