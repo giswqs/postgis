@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>3. Introduction to PostGIS &#8212; Spatial Data Management with PostgreSQL and PostGIS</title>
+    <title>6. Projecting Data &#8212; Spatial Data Management with PostgreSQL and PostGIS</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -52,21 +52,20 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://postgis.gishub.org/chapters/postgis_intro.html" />
+    <link rel="canonical" href="https://postgis.gishub.org/chapters/projection.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="4. Working with Geometries" href="geometries.html" />
-    <link rel="prev" title="2. SQL Basics" href="sql_basics.html" />
+    <link rel="prev" title="5. Spatial Relationships" href="spatial_relationships.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
 
 
 <!-- Opengraph tags -->
-<meta property="og:url"         content="https://postgis.gishub.org/chapters/postgis_intro.html" />
+<meta property="og:url"         content="https://postgis.gishub.org/chapters/projection.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="Introduction to PostGIS" />
-<meta property="og:description" content="Introduction to PostGIS  Setting up the conda env:  conda create -n sql python conda activate sql conda install ipython-sql sqlalchemy psycopg2 notebook pandas " />
+<meta property="og:title"       content="Projecting Data" />
+<meta property="og:description" content="Projecting Data  Setting up the conda env:  conda create -n sql python conda activate sql conda install ipython-sql sqlalchemy psycopg2 notebook pandas -c conda" />
 <meta property="og:image"       content="https://postgis.gishub.org/_static/logo.png" />
 
 <meta name="twitter:card" content="summary" />
@@ -135,8 +134,8 @@
    2. SQL Basics
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="postgis_intro.html">
    3. Introduction to PostGIS
   </a>
  </li>
@@ -150,8 +149,8 @@
    5. Spatial Relationships
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="projection.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    6. Projecting Data
   </a>
  </li>
@@ -195,7 +194,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/chapters/postgis_intro.ipynb"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/chapters/projection.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
@@ -215,10 +214,10 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/giswqs/postgis/issues/new?title=Issue%20on%20page%20%2Fchapters/postgis_intro.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/giswqs/postgis/issues/new?title=Issue%20on%20page%20%2Fchapters/projection.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/giswqs/postgis/edit/master/postgis/chapters/postgis_intro.ipynb"><button
+        <a class="edit-button" href="https://github.com/giswqs/postgis/edit/master/postgis/chapters/projection.ipynb"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -238,7 +237,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/giswqs/postgis/master?urlpath=tree/postgis/chapters/postgis_intro.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/giswqs/postgis/master?urlpath=tree/postgis/chapters/projection.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -263,25 +262,28 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#connecting-to-the-database">
-   3.1. Connecting to the database
+   6.1. Connecting to the database
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#simple-sql">
-   3.2. Simple SQL
+  <a class="reference internal nav-link" href="#checking-srid">
+   6.2. Checking SRID
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#nyc-neighborhoods">
-     3.2.1. NYC Neighborhoods
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#nyc-census-blocks">
-     3.2.2. NYC Census Blocks
-    </a>
-   </li>
-  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#comparing-data">
+   6.3. Comparing Data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#transforming-data">
+   6.4. Transforming Data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#function-list">
+   6.5. Function List
+  </a>
  </li>
 </ul>
 
@@ -295,8 +297,8 @@
         
               <div>
                 
-  <div class="section" id="introduction-to-postgis">
-<h1><span class="section-number">3. </span>Introduction to PostGIS<a class="headerlink" href="#introduction-to-postgis" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="projecting-data">
+<h1><span class="section-number">6. </span>Projecting Data<a class="headerlink" href="#projecting-data" title="Permalink to this headline">¶</a></h1>
 <p><strong>Setting up the conda env:</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">sql</span> <span class="n">python</span>
 <span class="n">conda</span> <span class="n">activate</span> <span class="n">sql</span>
@@ -313,7 +315,7 @@
 <li><p><a class="reference external" href="https://desktop.arcgis.com/en/arcmap/latest/manage-data/using-sql-with-gdbs/sql-and-enterprise-geodatabases.htm">Using SQL with Geodatabases</a></p></li>
 </ul>
 <div class="section" id="connecting-to-the-database">
-<h2><span class="section-number">3.1. </span>Connecting to the database<a class="headerlink" href="#connecting-to-the-database" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">6.1. </span>Connecting to the database<a class="headerlink" href="#connecting-to-the-database" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> sql
@@ -356,103 +358,147 @@
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span> 
 
-SELECT * FROM nyc_neighborhoods WHERE FALSE
+SELECT * from nyc_subway_stations LIMIT 5
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
-0 rows affected.
+5 rows affected.
 </pre></div>
 </div>
 <div class="output text_html"><table>
     <tr>
         <th>id</th>
         <th>geom</th>
-        <th>boroname</th>
+        <th>objectid</th>
         <th>name</th>
-    </tr>
-</table></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span> 
-
-SELECT id, boroname, name from nyc_neighborhoods LIMIT 10
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
-10 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <tr>
-        <th>id</th>
-        <th>boroname</th>
-        <th>name</th>
+        <th>alt_name</th>
+        <th>cross_st</th>
+        <th>long_name</th>
+        <th>label</th>
+        <th>borough</th>
+        <th>nghbhd</th>
+        <th>routes</th>
+        <th>transfers</th>
+        <th>color</th>
+        <th>express</th>
+        <th>closed</th>
     </tr>
     <tr>
+        <td>376</td>
+        <td>010100002026690000371775B5C3CE2141CBD2347771315141</td>
         <td>1</td>
-        <td>Brooklyn</td>
-        <td>Bensonhurst</td>
+        <td>Cortlandt St</td>
+        <td>None</td>
+        <td>Church St</td>
+        <td>Cortlandt St (R,W) Manhattan</td>
+        <td>Cortlandt St (R,W)</td>
+        <td>Manhattan</td>
+        <td>None</td>
+        <td>R,W</td>
+        <td>R,W</td>
+        <td>YELLOW</td>
+        <td>None</td>
+        <td>None</td>
     </tr>
     <tr>
         <td>2</td>
+        <td>010100002026690000CBE327F938CD21415EDBE1572D315141</td>
+        <td>2</td>
+        <td>Rector St</td>
+        <td>None</td>
+        <td>None</td>
+        <td>Rector St (1) Manhattan</td>
+        <td>Rector St (1)</td>
         <td>Manhattan</td>
-        <td>East Village</td>
+        <td>None</td>
+        <td>1</td>
+        <td>1</td>
+        <td>RED</td>
+        <td>None</td>
+        <td>None</td>
     </tr>
     <tr>
+        <td>1</td>
+        <td>010100002026690000C676635D10CD2141A0ECDB6975305141</td>
         <td>3</td>
+        <td>South Ferry</td>
+        <td>None</td>
+        <td>None</td>
+        <td>South Ferry (1) Manhattan</td>
+        <td>South Ferry (1)</td>
         <td>Manhattan</td>
-        <td>West Village</td>
+        <td>None</td>
+        <td>1</td>
+        <td>1</td>
+        <td>RED</td>
+        <td>None</td>
+        <td>None</td>
     </tr>
     <tr>
+        <td>125</td>
+        <td>010100002026690000F4CF3E3654032241B5704681A73C5141</td>
         <td>4</td>
-        <td>The Bronx</td>
-        <td>Throggs Neck</td>
+        <td>138th St</td>
+        <td>Grand Concourse</td>
+        <td>Grand Concourse</td>
+        <td>138th St / Grand Concourse (4,5) Bronx</td>
+        <td>138th St / Grand Concourse (4,5)</td>
+        <td>Bronx</td>
+        <td>None</td>
+        <td>4,5</td>
+        <td>4,5</td>
+        <td>GREEN</td>
+        <td>None</td>
+        <td>None</td>
     </tr>
     <tr>
+        <td>126</td>
+        <td>01010000202669000084DADF7AED0422410C380E6E3A3D5141</td>
         <td>5</td>
-        <td>The Bronx</td>
-        <td>Wakefield-Williamsbridge</td>
-    </tr>
-    <tr>
-        <td>6</td>
-        <td>Queens</td>
-        <td>Auburndale</td>
-    </tr>
-    <tr>
-        <td>7</td>
-        <td>Manhattan</td>
-        <td>Battery Park</td>
-    </tr>
-    <tr>
-        <td>8</td>
-        <td>Manhattan</td>
-        <td>Carnegie Hill</td>
-    </tr>
-    <tr>
-        <td>9</td>
-        <td>Staten Island</td>
-        <td>Mariners Harbor</td>
-    </tr>
-    <tr>
-        <td>10</td>
-        <td>Staten Island</td>
-        <td>Rossville</td>
+        <td>149th St</td>
+        <td>Grand Concourse</td>
+        <td>Grand Concourse</td>
+        <td>149th St / Grand Concourse (4) Bronx</td>
+        <td>149th St / Grand Concourse (4)</td>
+        <td>Bronx</td>
+        <td>None</td>
+        <td>4</td>
+        <td>2,4,5</td>
+        <td>GREEN</td>
+        <td>express</td>
+        <td>None</td>
     </tr>
 </table></div></div>
 </div>
 </div>
-<div class="section" id="simple-sql">
-<h2><span class="section-number">3.2. </span>Simple SQL<a class="headerlink" href="#simple-sql" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="checking-srid">
+<h2><span class="section-number">6.2. </span>Checking SRID<a class="headerlink" href="#checking-srid" title="Permalink to this headline">¶</a></h2>
+<p>The earth is not flat, and there is no simple way of putting it down on
+a flat paper map (or computer screen), so people have come up with all
+sorts of ingenious solutions, each with pros and cons. Some projections
+preserve area, so all objects have a relative size to each other; other
+projections preserve angles (conformal) like the Mercator projection;
+some projections try to find a good intermediate mix with only little
+distortion on several parameters. Common to all projections is that they
+transform the (spherical) world onto a flat Cartesian coordinate system,
+and which projection to choose depends on how you will be using the
+data.</p>
+<p>We’ve already encountered projections when we
+<a class="reference external" href="https://postgis.gishub.org/chapters/postgis_intro.html">loaded our nyc data</a>.
+(Recall that pesky SRID 26918). Sometimes, however, you need to
+transform and re-project between spatial reference systems. PostGIS
+includes built-in support for changing the projection of data, using the
+<code class="docutils literal notranslate"><span class="pre">ST_Transform(geometry,</span> <span class="pre">srid)</span></code>
+function. For managing the spatial reference identifiers on geometries,
+PostGIS provides the <code class="docutils literal notranslate"><span class="pre">ST_SRID(geometry)</span></code> and <code class="docutils literal notranslate"><span class="pre">ST_SetSRID(geometry,</span> <span class="pre">srid)</span></code> functions.</p>
+<p>We can confirm the SRID of our data with the <code class="docutils literal notranslate"><span class="pre">ST_SRID</span></code> function:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
 
-SELECT postgis_full_version()
+SELECT ST_SRID(geom) FROM nyc_streets LIMIT 1;
 </pre></div>
 </div>
 </div>
@@ -463,613 +509,25 @@ SELECT postgis_full_version()
 </div>
 <div class="output text_html"><table>
     <tr>
-        <th>postgis_full_version</th>
+        <th>st_srid</th>
     </tr>
     <tr>
-        <td>POSTGIS=&quot;3.0.3 6660953&quot; [EXTENSION] PGSQL=&quot;130&quot; GEOS=&quot;3.8.1-CAPI-1.13.3&quot; PROJ=&quot;6.3.2&quot; LIBXML=&quot;2.9.10&quot; LIBJSON=&quot;0.15&quot; LIBPROTOBUF=&quot;1.3.3&quot; WAGYU=&quot;0.4.3 (Internal)&quot;</td>
+        <td>26918</td>
     </tr>
 </table></div></div>
 </div>
-<div class="section" id="nyc-neighborhoods">
-<h3><span class="section-number">3.2.1. </span>NYC Neighborhoods<a class="headerlink" href="#nyc-neighborhoods" title="Permalink to this headline">¶</a></h3>
-<p><img alt="" src="https://i.imgur.com/eycL547.png" /></p>
-<p>What are the names of all the neighborhoods in New York City?</p>
-<div class="cell tag_hide-output docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
-
-SELECT name FROM nyc_neighborhoods
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
-129 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <tr>
-        <th>name</th>
-    </tr>
-    <tr>
-        <td>Bensonhurst</td>
-    </tr>
-    <tr>
-        <td>East Village</td>
-    </tr>
-    <tr>
-        <td>West Village</td>
-    </tr>
-    <tr>
-        <td>Throggs Neck</td>
-    </tr>
-    <tr>
-        <td>Wakefield-Williamsbridge</td>
-    </tr>
-    <tr>
-        <td>Auburndale</td>
-    </tr>
-    <tr>
-        <td>Battery Park</td>
-    </tr>
-    <tr>
-        <td>Carnegie Hill</td>
-    </tr>
-    <tr>
-        <td>Mariners Harbor</td>
-    </tr>
-    <tr>
-        <td>Rossville</td>
-    </tr>
-    <tr>
-        <td>Harlem</td>
-    </tr>
-    <tr>
-        <td>Gramercy</td>
-    </tr>
-    <tr>
-        <td>Queens Village</td>
-    </tr>
-    <tr>
-        <td>Middle Village</td>
-    </tr>
-    <tr>
-        <td>Ettingville</td>
-    </tr>
-    <tr>
-        <td>Morris Park</td>
-    </tr>
-    <tr>
-        <td>Baychester</td>
-    </tr>
-    <tr>
-        <td>Great Kills</td>
-    </tr>
-    <tr>
-        <td>New Brighton</td>
-    </tr>
-    <tr>
-        <td>Fordham</td>
-    </tr>
-    <tr>
-        <td>Nkew Gardens</td>
-    </tr>
-    <tr>
-        <td>Soho</td>
-    </tr>
-    <tr>
-        <td>Spuyten Duyvil</td>
-    </tr>
-    <tr>
-        <td>Woodside</td>
-    </tr>
-    <tr>
-        <td>Bay Ridge</td>
-    </tr>
-    <tr>
-        <td>Mott Haven</td>
-    </tr>
-    <tr>
-        <td>Rosedale</td>
-    </tr>
-    <tr>
-        <td>Boerum Hill</td>
-    </tr>
-    <tr>
-        <td>Cobble Hill</td>
-    </tr>
-    <tr>
-        <td>Morningside Heights</td>
-    </tr>
-    <tr>
-        <td>Murray Hill</td>
-    </tr>
-    <tr>
-        <td>Port Richmond</td>
-    </tr>
-    <tr>
-        <td>Williams Bridge</td>
-    </tr>
-    <tr>
-        <td>Downtown</td>
-    </tr>
-    <tr>
-        <td>Woodrow</td>
-    </tr>
-    <tr>
-        <td>Union Port</td>
-    </tr>
-    <tr>
-        <td>Woodhaven-Richmond Hill</td>
-    </tr>
-    <tr>
-        <td>Soundview</td>
-    </tr>
-    <tr>
-        <td>Jamaica</td>
-    </tr>
-    <tr>
-        <td>Laurelton</td>
-    </tr>
-    <tr>
-        <td>Sunset Park</td>
-    </tr>
-    <tr>
-        <td>Borough Park</td>
-    </tr>
-    <tr>
-        <td>East Brooklyn</td>
-    </tr>
-    <tr>
-        <td>Midland Beach</td>
-    </tr>
-    <tr>
-        <td>Jackson Heights</td>
-    </tr>
-    <tr>
-        <td>Maspeth</td>
-    </tr>
-    <tr>
-        <td>Flatbush</td>
-    </tr>
-    <tr>
-        <td>Central Park</td>
-    </tr>
-    <tr>
-        <td>Charlestown-Richmond Valley</td>
-    </tr>
-    <tr>
-        <td>Glendale</td>
-    </tr>
-    <tr>
-        <td>Morris Heights</td>
-    </tr>
-    <tr>
-        <td>Kings Bridge</td>
-    </tr>
-    <tr>
-        <td>Country Club</td>
-    </tr>
-    <tr>
-        <td>Park Slope</td>
-    </tr>
-    <tr>
-        <td>Greenwich Village</td>
-    </tr>
-    <tr>
-        <td>Midtown</td>
-    </tr>
-    <tr>
-        <td>Bloomfield-Chelsea-Travis</td>
-    </tr>
-    <tr>
-        <td>Richmondtown</td>
-    </tr>
-    <tr>
-        <td>Bedford Park</td>
-    </tr>
-    <tr>
-        <td>Williamsburg</td>
-    </tr>
-    <tr>
-        <td>Flushing</td>
-    </tr>
-    <tr>
-        <td>Canarsie</td>
-    </tr>
-    <tr>
-        <td>Greenwood</td>
-    </tr>
-    <tr>
-        <td>Annandale</td>
-    </tr>
-    <tr>
-        <td>City Island</td>
-    </tr>
-    <tr>
-        <td>Saintalbans</td>
-    </tr>
-    <tr>
-        <td>University Heights</td>
-    </tr>
-    <tr>
-        <td>Gravesend-Sheepshead Bay</td>
-    </tr>
-    <tr>
-        <td>Tribeca</td>
-    </tr>
-    <tr>
-        <td>North Sutton Area</td>
-    </tr>
-    <tr>
-        <td>Queensboro Hill</td>
-    </tr>
-    <tr>
-        <td>Springfield Gardens</td>
-    </tr>
-    <tr>
-        <td>Dyker Heights</td>
-    </tr>
-    <tr>
-        <td>Upper East Side</td>
-    </tr>
-    <tr>
-        <td>Financial District</td>
-    </tr>
-    <tr>
-        <td>Inwood</td>
-    </tr>
-    <tr>
-        <td>Sunny Side</td>
-    </tr>
-    <tr>
-        <td>Lower East Side</td>
-    </tr>
-    <tr>
-        <td>Chelsea</td>
-    </tr>
-    <tr>
-        <td>Oakwood</td>
-    </tr>
-    <tr>
-        <td>South Beach</td>
-    </tr>
-    <tr>
-        <td>Tottensville</td>
-    </tr>
-    <tr>
-        <td>Hunts Point</td>
-    </tr>
-    <tr>
-        <td>Ridgewood</td>
-    </tr>
-    <tr>
-        <td>Forest Hills</td>
-    </tr>
-    <tr>
-        <td>Clearview</td>
-    </tr>
-    <tr>
-        <td>Brownsville</td>
-    </tr>
-    <tr>
-        <td>Bushwick</td>
-    </tr>
-    <tr>
-        <td>Washington Heights</td>
-    </tr>
-    <tr>
-        <td>Upper West Side</td>
-    </tr>
-    <tr>
-        <td>The Rockaways</td>
-    </tr>
-    <tr>
-        <td>Howland Hook</td>
-    </tr>
-    <tr>
-        <td>Ardon Heights</td>
-    </tr>
-    <tr>
-        <td>Fort Green</td>
-    </tr>
-    <tr>
-        <td>Clinton</td>
-    </tr>
-    <tr>
-        <td>Prince&#x27;s Bay</td>
-    </tr>
-    <tr>
-        <td>Fresh Kills</td>
-    </tr>
-    <tr>
-        <td>High Bridge</td>
-    </tr>
-    <tr>
-        <td>Eastchester</td>
-    </tr>
-    <tr>
-        <td>Riverdale</td>
-    </tr>
-    <tr>
-        <td>Woodlawn-Nordwood</td>
-    </tr>
-    <tr>
-        <td>Huguenot</td>
-    </tr>
-    <tr>
-        <td>Clifton</td>
-    </tr>
-    <tr>
-        <td>Bayside</td>
-    </tr>
-    <tr>
-        <td>Howard Beach</td>
-    </tr>
-    <tr>
-        <td>Tremont</td>
-    </tr>
-    <tr>
-        <td>Utopia</td>
-    </tr>
-    <tr>
-        <td>Garment District</td>
-    </tr>
-    <tr>
-        <td>East Harlem</td>
-    </tr>
-    <tr>
-        <td>Todt Hill</td>
-    </tr>
-    <tr>
-        <td>Parkchester</td>
-    </tr>
-    <tr>
-        <td>South Bronx</td>
-    </tr>
-    <tr>
-        <td>Westerleigh-Castleton</td>
-    </tr>
-    <tr>
-        <td>College Point</td>
-    </tr>
-    <tr>
-        <td>Mapleton-Flatlands</td>
-    </tr>
-    <tr>
-        <td>Little Italy</td>
-    </tr>
-    <tr>
-        <td>Bedford-Stuyvesant</td>
-    </tr>
-    <tr>
-        <td>Hamilton Heights</td>
-    </tr>
-    <tr>
-        <td>Carroll Gardens</td>
-    </tr>
-    <tr>
-        <td>Astoria-Long Island City</td>
-    </tr>
-    <tr>
-        <td>Yorkville</td>
-    </tr>
-    <tr>
-        <td>Chinatown</td>
-    </tr>
-    <tr>
-        <td>Coney Island</td>
-    </tr>
-    <tr>
-        <td>Corona</td>
-    </tr>
-    <tr>
-        <td>Red Hook</td>
-    </tr>
-    <tr>
-        <td>Douglastown-Little Neck</td>
-    </tr>
-    <tr>
-        <td>Whitestone</td>
-    </tr>
-    <tr>
-        <td>Steinway</td>
-    </tr>
-    <tr>
-        <td>Rosebank</td>
-    </tr>
-</table></div></div>
-</div>
-<p>What are the names of all the neighborhoods in Brooklyn?</p>
-<div class="cell tag_hide-output docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
-
-SELECT name
-FROM nyc_neighborhoods
-WHERE boroname = &#39;Brooklyn&#39;
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
-23 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <tr>
-        <th>name</th>
-    </tr>
-    <tr>
-        <td>Bensonhurst</td>
-    </tr>
-    <tr>
-        <td>Bay Ridge</td>
-    </tr>
-    <tr>
-        <td>Boerum Hill</td>
-    </tr>
-    <tr>
-        <td>Cobble Hill</td>
-    </tr>
-    <tr>
-        <td>Downtown</td>
-    </tr>
-    <tr>
-        <td>Sunset Park</td>
-    </tr>
-    <tr>
-        <td>Borough Park</td>
-    </tr>
-    <tr>
-        <td>East Brooklyn</td>
-    </tr>
-    <tr>
-        <td>Flatbush</td>
-    </tr>
-    <tr>
-        <td>Park Slope</td>
-    </tr>
-    <tr>
-        <td>Williamsburg</td>
-    </tr>
-    <tr>
-        <td>Canarsie</td>
-    </tr>
-    <tr>
-        <td>Greenwood</td>
-    </tr>
-    <tr>
-        <td>Gravesend-Sheepshead Bay</td>
-    </tr>
-    <tr>
-        <td>Dyker Heights</td>
-    </tr>
-    <tr>
-        <td>Brownsville</td>
-    </tr>
-    <tr>
-        <td>Bushwick</td>
-    </tr>
-    <tr>
-        <td>Fort Green</td>
-    </tr>
-    <tr>
-        <td>Mapleton-Flatlands</td>
-    </tr>
-    <tr>
-        <td>Bedford-Stuyvesant</td>
-    </tr>
-    <tr>
-        <td>Carroll Gardens</td>
-    </tr>
-    <tr>
-        <td>Coney Island</td>
-    </tr>
-    <tr>
-        <td>Red Hook</td>
-    </tr>
-</table></div></div>
-</div>
-<p>What is the number of letters in the names of all the neighborhoods in Brooklyn?</p>
-<div class="cell tag_hide-output docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
-
-SELECT char_length(name)
-FROM nyc_neighborhoods
-WHERE boroname = &#39;Brooklyn&#39;
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
-23 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <tr>
-        <th>char_length</th>
-    </tr>
-    <tr>
-        <td>11</td>
-    </tr>
-    <tr>
-        <td>9</td>
-    </tr>
-    <tr>
-        <td>11</td>
-    </tr>
-    <tr>
-        <td>11</td>
-    </tr>
-    <tr>
-        <td>8</td>
-    </tr>
-    <tr>
-        <td>11</td>
-    </tr>
-    <tr>
-        <td>12</td>
-    </tr>
-    <tr>
-        <td>13</td>
-    </tr>
-    <tr>
-        <td>8</td>
-    </tr>
-    <tr>
-        <td>10</td>
-    </tr>
-    <tr>
-        <td>12</td>
-    </tr>
-    <tr>
-        <td>8</td>
-    </tr>
-    <tr>
-        <td>9</td>
-    </tr>
-    <tr>
-        <td>24</td>
-    </tr>
-    <tr>
-        <td>13</td>
-    </tr>
-    <tr>
-        <td>11</td>
-    </tr>
-    <tr>
-        <td>8</td>
-    </tr>
-    <tr>
-        <td>10</td>
-    </tr>
-    <tr>
-        <td>18</td>
-    </tr>
-    <tr>
-        <td>18</td>
-    </tr>
-    <tr>
-        <td>15</td>
-    </tr>
-    <tr>
-        <td>12</td>
-    </tr>
-    <tr>
-        <td>8</td>
-    </tr>
-</table></div></div>
-</div>
-<p>What is the average number of letters and standard deviation of number of letters in the names of all the neighborhoods in Brooklyn?</p>
+<p>And what is definition of “26918”? As we saw in
+<a class="reference external" href="https://postgis.gishub.org/chapters/postgis_intro.html">loading data section</a>,
+the definition is contained in the <code class="docutils literal notranslate"><span class="pre">spatial_ref_sys</span></code> table. In fact,
+<strong>two</strong> definitions are there. The “well-known text”
+(<code class="docutils literal notranslate"><span class="pre">WKT</span></code>) definition is in the <code class="docutils literal notranslate"><span class="pre">srtext</span></code>
+column, and there is a second definition in “proj.4” format in the
+<code class="docutils literal notranslate"><span class="pre">proj4text</span></code> column.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
 
-SELECT avg(char_length(name)), stddev(char_length(name))
-FROM nyc_neighborhoods
-WHERE boroname = &#39;Brooklyn&#39;
+SELECT * FROM spatial_ref_sys WHERE srid = 26918
 </pre></div>
 </div>
 </div>
@@ -1080,23 +538,240 @@ WHERE boroname = &#39;Brooklyn&#39;
 </div>
 <div class="output text_html"><table>
     <tr>
-        <th>avg</th>
-        <th>stddev</th>
+        <th>srid</th>
+        <th>auth_name</th>
+        <th>auth_srid</th>
+        <th>srtext</th>
+        <th>proj4text</th>
     </tr>
     <tr>
-        <td>11.7391304347826087</td>
-        <td>3.9105613559407395</td>
+        <td>26918</td>
+        <td>EPSG</td>
+        <td>26918</td>
+        <td>PROJCS[&quot;NAD83 / UTM zone 18N&quot;,GEOGCS[&quot;NAD83&quot;,DATUM[&quot;North_American_Datum_1983&quot;,SPHEROID[&quot;GRS 1980&quot;,6378137,298.257222101,AUTHORITY[&quot;EPSG&quot;,&quot;7019&quot;]],TOWGS84[0,0,0,0,0,0,0],AUTHORITY[&quot;EPSG&quot;,&quot;6269&quot;]],PRIMEM[&quot;Greenwich&quot;,0,AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]],UNIT[&quot;degree&quot;,0.0174532925199433,AUTHORITY[&quot;EPSG&quot;,&quot;9122&quot;]],AUTHORITY[&quot;EPSG&quot;,&quot;4269&quot;]],PROJECTION[&quot;Transverse_Mercator&quot;],PARAMETER[&quot;latitude_of_origin&quot;,0],PARAMETER[&quot;central_meridian&quot;,-75],PARAMETER[&quot;scale_factor&quot;,0.9996],PARAMETER[&quot;false_easting&quot;,500000],PARAMETER[&quot;false_northing&quot;,0],UNIT[&quot;metre&quot;,1,AUTHORITY[&quot;EPSG&quot;,&quot;9001&quot;]],AXIS[&quot;Easting&quot;,EAST],AXIS[&quot;Northing&quot;,NORTH],AUTHORITY[&quot;EPSG&quot;,&quot;26918&quot;]]</td>
+        <td>+proj=utm +zone=18 +datum=NAD83 +units=m +no_defs </td>
     </tr>
 </table></div></div>
 </div>
-<p>What is the average number of letters in the names of all the neighborhoods in New York City, reported by borough?</p>
+<p>In fact, for the internal PostGIS re-projection calculations, it is the
+contents of the <code class="docutils literal notranslate"><span class="pre">proj4text</span></code> column that are used. For our 26918
+projection, here is the proj.4 text:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
 
-SELECT boroname, avg(char_length(name)), stddev(char_length(name))
-FROM nyc_neighborhoods
-GROUP BY boroname
+SELECT proj4text FROM spatial_ref_sys WHERE srid = 26918
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>proj4text</th>
+    </tr>
+    <tr>
+        <td>+proj=utm +zone=18 +datum=NAD83 +units=m +no_defs </td>
+    </tr>
+</table></div></div>
+</div>
+<p>In practice, both the <code class="docutils literal notranslate"><span class="pre">srtext</span></code> and the <code class="docutils literal notranslate"><span class="pre">proj4text</span></code> columns are
+important: the <code class="docutils literal notranslate"><span class="pre">srtext</span></code> column is used by external programs like
+<a class="reference external" href="http://geoserver.org">GeoServer</a>, <a class="reference external" href="https://qgis.org">QGIS</a>, and
+<a class="reference external" href="http://www.safe.com/">FME</a> and others; the <code class="docutils literal notranslate"><span class="pre">proj4text</span></code> column is used
+internally.</p>
+</div>
+<div class="section" id="comparing-data">
+<h2><span class="section-number">6.3. </span>Comparing Data<a class="headerlink" href="#comparing-data" title="Permalink to this headline">¶</a></h2>
+<p>Taken together, a coordinate and an SRID define a location on the globe.
+Without an SRID, a coordinate is just an abstract notion. A
+“Cartesian” coordinate plane is defined as a “flat” coordinate
+system placed on the surface of Earth. Because PostGIS functions work on
+such a plane, comparison operations require that both geometries be
+represented in the same SRID.</p>
+<p>If you feed in geometries with differing SRIDs you will just get an
+error:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%sql</span>
+
+<span class="c1"># SELECT ST_Equals(</span>
+<span class="c1">#          ST_GeomFromText(&#39;POINT(0 0)&#39;, 4326),</span>
+<span class="c1">#          ST_GeomFromText(&#39;POINT(0 0)&#39;, 26918)</span>
+<span class="c1">#          )</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Be careful of getting too happy with using
+<code class="docutils literal notranslate"><span class="pre">ST_Transform</span></code> for on-the-fly
+conversion. Spatial indexes are built using SRID of the stored
+geometries. If comparison are done in a different SRID, spatial indexes
+are (often) not used. It is best practice to choose <strong>one SRID</strong> for all
+the tables in your database. Only use the transformation function when
+you are reading or writing data to external applications.</p>
+</div>
+<div class="section" id="transforming-data">
+<h2><span class="section-number">6.4. </span>Transforming Data<a class="headerlink" href="#transforming-data" title="Permalink to this headline">¶</a></h2>
+<p>If we return to our proj4 definition for SRID 26918, we can see that our
+working projection is UTM (Universal Transverse Mercator) of zone 18,
+with meters as the unit of measurement.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>+proj=utm +zone=18 +ellps=GRS80 +datum=NAD83 +units=m +no_defs 
+</pre></div>
+</div>
+<p>Let’s convert some data from our working projection to geographic
+coordinates – also known as “longitude/latitude”.</p>
+<p>To convert data from one SRID to another, you must first verify that
+your geometry has a valid SRID. Since we have already confirmed a valid
+SRID, we next need the SRID of the projection to transform into. In
+other words, what is the SRID of geographic coordinates?</p>
+<p>The most common SRID for geographic coordinates is 4326, which
+corresponds to “longitude/latitude on the WGS84 spheroid”. You can see
+the definition at the <a class="reference external" href="http://spatialreference.org">spatialreference.org</a> site:</p>
+<blockquote>
+<div><p><a class="reference external" href="http://spatialreference.org/ref/epsg/4326/">http://spatialreference.org/ref/epsg/4326/</a></p>
+</div></blockquote>
+<p>You can also pull the definitions from the <code class="docutils literal notranslate"><span class="pre">spatial_ref_sys</span></code> table:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT srtext FROM spatial_ref_sys WHERE srid = 4326;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>srtext</th>
+    </tr>
+    <tr>
+        <td>GEOGCS[&quot;WGS 84&quot;,DATUM[&quot;WGS_1984&quot;,SPHEROID[&quot;WGS 84&quot;,6378137,298.257223563,AUTHORITY[&quot;EPSG&quot;,&quot;7030&quot;]],AUTHORITY[&quot;EPSG&quot;,&quot;6326&quot;]],PRIMEM[&quot;Greenwich&quot;,0,AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]],UNIT[&quot;degree&quot;,0.0174532925199433,AUTHORITY[&quot;EPSG&quot;,&quot;9122&quot;]],AUTHORITY[&quot;EPSG&quot;,&quot;4326&quot;]]</td>
+    </tr>
+</table></div></div>
+</div>
+<p>Let’s convert the coordinates of the ‘Broad St’ subway station into
+geographics:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT ST_AsText(geom)
+FROM nyc_subway_stations 
+WHERE name = &#39;Broad St&#39;;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>st_astext</th>
+    </tr>
+    <tr>
+        <td>POINT(583571.905921312 4506714.34119218)</td>
+    </tr>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT ST_AsText(ST_Transform(geom,4326)) 
+FROM nyc_subway_stations 
+WHERE name = &#39;Broad St&#39;;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>st_astext</th>
+    </tr>
+    <tr>
+        <td>POINT(-74.0106714688734 40.7071048155876)</td>
+    </tr>
+</table></div></div>
+</div>
+<p>If you load data or create a new geometry without specifying an SRID,
+the SRID value will be 0. Recall in <code class="docutils literal notranslate"><span class="pre">geometries</span></code>, that when we created our <code class="docutils literal notranslate"><span class="pre">geometries</span></code> table we didn’t
+specify an SRID. If we query our database, we should expect all the
+<code class="docutils literal notranslate"><span class="pre">nyc_</span></code> tables to have an SRID of 26918, while the <code class="docutils literal notranslate"><span class="pre">geometries</span></code> table
+defaulted to an SRID of 0.</p>
+<p>To view a table’s SRID assignment, query the database’s
+<code class="docutils literal notranslate"><span class="pre">geometry_columns</span></code> table.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT f_table_name AS name, srid 
+FROM geometry_columns;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
+6 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <tr>
+        <th>name</th>
+        <th>srid</th>
+    </tr>
+    <tr>
+        <td>nyc_homicides</td>
+        <td>26918</td>
+    </tr>
+    <tr>
+        <td>nyc_census_blocks</td>
+        <td>26918</td>
+    </tr>
+    <tr>
+        <td>nyc_neighborhoods</td>
+        <td>26918</td>
+    </tr>
+    <tr>
+        <td>nyc_streets</td>
+        <td>26918</td>
+    </tr>
+    <tr>
+        <td>nyc_subway_stations</td>
+        <td>26918</td>
+    </tr>
+    <tr>
+        <td>geometries</td>
+        <td>0</td>
+    </tr>
+</table></div></div>
+</div>
+<p>However, if you know what the SRID of the coordinates is supposed to be,
+you can set it post-facto, using <code class="docutils literal notranslate"><span class="pre">ST_SetSRID</span></code> on the geometry. Then you will be able to transform the
+geometry into other systems.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT ST_AsText(
+ ST_Transform(
+   ST_SetSRID(geom,26918),
+ 4326)
+)
+FROM geometries;
 </pre></div>
 </div>
 </div>
@@ -1107,164 +782,40 @@ GROUP BY boroname
 </div>
 <div class="output text_html"><table>
     <tr>
-        <th>boroname</th>
-        <th>avg</th>
-        <th>stddev</th>
+        <th>st_astext</th>
     </tr>
     <tr>
-        <td>Queens</td>
-        <td>11.6666666666666667</td>
-        <td>5.0057438272815975</td>
+        <td>POINT(-79.488743884387 0)</td>
     </tr>
     <tr>
-        <td>Brooklyn</td>
-        <td>11.7391304347826087</td>
-        <td>3.9105613559407395</td>
+        <td>LINESTRING(-79.488743884387 0,-79.4887349253904 0.000009019375921,-79.4887259663935 0.000009019376033,-79.4887259663937 0.000018038752065)</td>
     </tr>
     <tr>
-        <td>Staten Island</td>
-        <td>12.2916666666666667</td>
-        <td>5.2043390480959474</td>
+        <td>POLYGON((-79.488743884387 0,-79.4887349253903 0,-79.4887349253904 0.000009019375921,-79.4887438843871 0.00000901937581,-79.488743884387 0))</td>
     </tr>
     <tr>
-        <td>The Bronx</td>
-        <td>12.0416666666666667</td>
-        <td>3.6651017740975152</td>
+        <td>POLYGON((-79.488743884387 0,-79.4886542944147 0,-79.4886542944202 0.000090193769243,-79.4887438843926 0.000090193758097,-79.488743884387 0),(-79.4887349253904 0.000009019375921,-79.4887349253905 0.000018038751842,-79.4887259663937 0.000018038752065,-79.4887259663935 0.000009019376033,-79.4887349253904 0.000009019375921))</td>
     </tr>
     <tr>
-        <td>Manhattan</td>
-        <td>11.8214285714285714</td>
-        <td>4.3123729948325257</td>
+        <td>GEOMETRYCOLLECTION(POINT(-79.4887259663935 0),POLYGON((-79.488743884387 0,-79.4887349253903 0,-79.4887349253904 0.000009019375921,-79.4887438843871 0.00000901937581,-79.488743884387 0)))</td>
     </tr>
 </table></div></div>
 </div>
 </div>
-<div class="section" id="nyc-census-blocks">
-<h3><span class="section-number">3.2.2. </span>NYC Census Blocks<a class="headerlink" href="#nyc-census-blocks" title="Permalink to this headline">¶</a></h3>
-<p><img alt="" src="https://i.imgur.com/tHyMJMm.png" /></p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
-
-SELECT * FROM nyc_census_blocks WHERE FALSE
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
-0 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <tr>
-        <th>id</th>
-        <th>geom</th>
-        <th>blkid</th>
-        <th>popn_total</th>
-        <th>popn_white</th>
-        <th>popn_black</th>
-        <th>popn_nativ</th>
-        <th>popn_asian</th>
-        <th>popn_other</th>
-        <th>boroname</th>
-    </tr>
-</table></div></div>
-</div>
-<p>What is the population of the City of New York?</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span> 
-
-SELECT Sum(popn_total) AS population
-FROM nyc_census_blocks
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
-1 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <tr>
-        <th>population</th>
-    </tr>
-    <tr>
-        <td>8175032</td>
-    </tr>
-</table></div></div>
-</div>
-<p>What is the population of the Bronx?</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span> 
-
-SELECT SUM(popn_total) AS population
-FROM nyc_census_blocks
-WHERE boroname = &#39;The Bronx&#39;
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
-1 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <tr>
-        <th>population</th>
-    </tr>
-    <tr>
-        <td>1385108</td>
-    </tr>
-</table></div></div>
-</div>
-<p>For each borough, what percentage of the population is white?</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
-
-SELECT
-boroname,
-100 * SUM(popn_white)/SUM(popn_total) AS white_pct
-FROM nyc_census_blocks
-GROUP BY boroname
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost/nyc
-5 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <tr>
-        <th>boroname</th>
-        <th>white_pct</th>
-    </tr>
-    <tr>
-        <td>Queens</td>
-        <td>39.7220773945910130</td>
-    </tr>
-    <tr>
-        <td>Brooklyn</td>
-        <td>42.8011737932686549</td>
-    </tr>
-    <tr>
-        <td>The Bronx</td>
-        <td>27.9037446899447552</td>
-    </tr>
-    <tr>
-        <td>Manhattan</td>
-        <td>57.4493039480462811</td>
-    </tr>
-    <tr>
-        <td>Staten Island</td>
-        <td>72.8942034860154033</td>
-    </tr>
-</table></div></div>
-</div>
-</div>
+<div class="section" id="function-list">
+<h2><span class="section-number">6.5. </span>Function List<a class="headerlink" href="#function-list" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://postgis.net/docs/ST_AsText.html">ST_AsText</a>: Returns the
+Well-Known Text (WKT) representation of the geometry/geography without
+SRID metadata.</p>
+<p><a class="reference external" href="http://postgis.net/docs/ST_SetSRID.html">ST_SetSRID(geometry, srid)</a>:
+Sets the SRID on a geometry to a particular integer value.</p>
+<p><a class="reference external" href="http://postgis.net/docs/ST_SRID.html">ST_SRID(geometry)</a>: Returns the
+spatial reference identifier for the ST_Geometry as defined in
+spatial_ref_sys table.</p>
+<p><a class="reference external" href="http://postgis.net/docs/ST_Transform.html">ST_Transform(geometry,
+srid)</a>: Returns a new
+geometry with its coordinates transformed to the SRID referenced by the
+integer parameter.</p>
 </div>
 </div>
 
@@ -1293,8 +844,7 @@ GROUP BY boroname
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="sql_basics.html" title="previous page"><span class="section-number">2. </span>SQL Basics</a>
-    <a class='right-next' id="next-link" href="geometries.html" title="next page"><span class="section-number">4. </span>Working with Geometries</a>
+    <a class='left-prev' id="prev-link" href="spatial_relationships.html" title="previous page"><span class="section-number">5. </span>Spatial Relationships</a>
 
         </div>
         
