@@ -14,3 +14,4 @@
     - file: chapters/postgis_intro
     - file: chapters/geometries
     - file: chapters/spatial_relationships
+    - file: chapters/projection
