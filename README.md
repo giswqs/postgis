@@ -15,6 +15,8 @@ Spatial Data Management with PostgreSQL and PostGIS https://gishub.org/sdm
 
 ## SQL Tutorial
 
+- https://www.scaler.com/topics/sql/
+
 ### Change column type
 
 ```
